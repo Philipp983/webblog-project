@@ -43,6 +43,7 @@
 
         <!-- Date and Time -->
         <p><strong>Posted at:</strong> Date: <span th:text="${#temporals.format(entry.date, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(entry.date, 'HH:mm:ss')}"></span></p>
+        <p><a th:href="@{/comment/{id}(id=${entry.id})}">Write a Comment</a></p>
     </li>
 </ul>
 
