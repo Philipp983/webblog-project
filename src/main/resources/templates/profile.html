@@ -4,6 +4,19 @@
     <title>Zwitscher</title>
 </head>
 <body>
+<header>
+    <nav>
+        <th:block th:if="${sessionUser == null}">
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/register}">Sign up</a>
+        </th:block>
+
+        <form th:if="${sessionUser != null}" method="post" th:action="@{/logout}">
+            <button type="submit">Logout</button>
+        </form>
+    </nav>
+    <hr>
+</header>
 <h1 th:text="${user.username}"></h1>
 <a th:href="@{/}">Home</a>
 
