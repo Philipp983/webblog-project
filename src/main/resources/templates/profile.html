@@ -1,0 +1,35 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TO DO</title>
+</head>
+<body>
+
+<header>
+    <nav>
+        <th:block th:if="${sessionUser == null}">
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/register}">Sign up</a>
+        </th:block>
+
+        <form th:if="${sessionUser != null}" method="post" th:action="@{/logout}">
+            <button type="submit">Logout</button>
+        </form>
+    </nav>
+    <hr>
+</header>
+<h1 th:text="${user.username}"></h1>
+
+
+
+
+<div th:each="message: ${user.messages}">
+    <strong th:text="${#dates.format(message.postedAt)}"></strong>
+    <span th:text="${message.text}"></span>
+    <form th:if="${user == sessionUser}" method="post" th:action="@{/messageDelete(messageId=${message.id})}">
+        <button type="submit">Delete</button>
+    </form>
+</div>
+</body>
+</html>

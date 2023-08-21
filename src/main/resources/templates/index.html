@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TO DO</title>
+</head>
+
+<body>
+<header>
+    <nav>
+        <th:block th:if="${sessionUser == null}">
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/register}">Sign up</a>
+        </th:block>
+
+        <form th:if="${sessionUser != null}" method="post" th:action="@{/logout}">
+            <button type="submit">Logout</button>
+        </form>
+    </nav>
+    <hr>
+</header>
+
+<h1 th:text="${'Welcome, Stranger!'}" th:if="${sessionUser == null}"></h1>
+<h1 th:text="${'Welcome, ' + sessionUser.username}" th:if="${sessionUser != null}"></h1>
+
+
+<section>
+    Blogpost 1
+</section>
+
+<section>
+    Blogpost 2
+</section>
+
+<section>
+    Blogpost 3
+</section>
+
+</body>
+</html>

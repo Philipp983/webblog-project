@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+</head>
+
+<body>
+<header>
+    <nav>
+        <th:block th:if="${sessionUser == null}">
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/register}">Sign up</a>
+        </th:block>
+
+        <form th:if="${sessionUser != null}" method="post" th:action="@{/logout}">
+            <button type="submit">Logout</button>
+        </form>
+    </nav>
+    <hr>
+</header>
+
+<h1>Login</h1>
+<form th:action="@{/login}" method="post">
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username"><br/>
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password"><br/>
+
+    <button type="submit">Login</button>
+</form>
+</body>
+</html>
