@@ -49,4 +49,13 @@ public class BlogUser {
         this.password = password;
         this.admin = admin;
     }
+
+    public BlogUser(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
 }
