@@ -1,11 +1,15 @@
 package de.brightslearning.webblog.user;
 
+import de.brightslearning.webblog.blogentry.BlogEntry;
+import de.brightslearning.webblog.comment.Comment;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
-@Table(name = "bloguser")
+@Table(name = "blogUser")
 @Getter
 @Setter
 public class BlogUser {
@@ -23,6 +27,12 @@ public class BlogUser {
 
     @Column(name = "admin")
     private boolean admin;
+
+    @OneToMany(mappedBy = "blogUser")
+    private List<BlogEntry> blogEntries;
+
+    @OneToMany(mappedBy = "blogUser")
+    private List<Comment> comments;
 
     public BlogUser() {
     }

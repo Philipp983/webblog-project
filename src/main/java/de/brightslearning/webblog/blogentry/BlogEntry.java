@@ -1,5 +1,7 @@
 package de.brightslearning.webblog.blogentry;
 
+import de.brightslearning.webblog.comment.Comment;
+import de.brightslearning.webblog.user.BlogUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,9 +9,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Table(name = "blogentry")
+@Table(name = "blogEntry")
 @Getter
 @Setter
 public class BlogEntry {
@@ -27,6 +30,13 @@ public class BlogEntry {
 
     @Column(name = "date")
     private LocalDateTime date;
+
+    @ManyToOne
+    @JoinColumn(name = "blogUser_id")
+    private BlogUser blogUser;
+
+    @OneToMany(mappedBy = "blogEntry")
+    private List<Comment> comments;
 
     public BlogEntry() {
         this.date = LocalDateTime.now();
