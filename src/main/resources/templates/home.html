@@ -33,11 +33,35 @@
     </p>
     <hr>
 
-    <div th:each="message: ${messages}">
-        <a th:href="@{/profile/{username}(username=${message.user.username})}">
-            <strong th:text="${'@' + message.user.username}"></strong>
-        </a>
-        <span th:text="${message.text}"></span>
-    </div>
+<ul>
+    <li class="box" th:each="entry : ${blogEntries}">
+        <!-- Title -->
+        <p><strong>Title:</strong> <span th:text="${entry.title}"></span></p>
+
+        <!-- Content -->
+        <p><strong>Content:</strong> <span th:text="${entry.content}"></span></p>
+
+        <!-- Date and Time -->
+        <p><strong>Posted at:</strong> Date: <span th:text="${#temporals.format(entry.date, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(entry.date, 'HH:mm:ss')}"></span></p>
+    </li>
+</ul>
+
+
+<!--<ul>-->
+<!--    <li class="box" th:each="entry : ${blogEntries}">-->
+<!--        &lt;!&ndash;            <strong th:text="${entry.name}"></strong> - &ndash;&gt;-->
+<!--        <p><span th:text="${entry.title}"></span></p>-->
+<!--        <p><span th:text="${entry.content}"></span></p>-->
+<!--        <p><strong>Posted at:</strong> Date: <span th:text="${#temporals.format(entry.date, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(entry.date, 'HH:mm:ss')}"></span></p>-->
+
+<!--    </li>-->
+<!--</ul>-->
+
+<!--    <div th:each="message: ${blogEntries}">-->
+<!--        <a th:href="@{/profile/{username}(username=${message.user.username})}">-->
+<!--            <strong th:text="${'@' + message.user.username}"></strong>-->
+<!--        </a>-->
+<!--        <span th:text="${message.text}"></span>-->
+<!--    </div>-->
 </body>
 </html>
