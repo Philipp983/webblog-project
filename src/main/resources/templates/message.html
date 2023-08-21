@@ -7,9 +7,13 @@
 <body>
 
 <h1>Post a message</h1>
-<form th:action="@{/message}" th:object="${message}" method="post">
-    <textarea th:field="*{text}"></textarea>
-    <p th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></p>
+<form th:action="@{/message}" th:object="${blogEntry}" method="post">
+    <label>Title:</label>
+    <input type="text" th:field="*{title}" />
+    <br>
+    <label>Content:</label>
+    <textarea th:field="*{content}"></textarea>
+    <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
     <br>
     <button type="submit">Submit</button>
 </form>
