@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Zwitscher</title>
+</head>
+<body>
+    <h1 th:text="${'Welcome, unknown user'}" th:if="${sessionUser == null}"></h1>
+    <h1 th:text="${'Welcome, ' + sessionUser.username}" th:if="${sessionUser != null}"></h1>
+    <a th:href="@{/login}" th:if="${sessionUser == null}">Login</a>
+    <a th:href="@{/register}">Sign up</a>
+
+    <form th:if="${sessionUser != null}" method="post" th:action="@{/logout}">
+        <button type="submit">Logout</button>
+    </form>
+
+    <hr>
+    <p>
+        <a th:href="@{/message}" th:if="${sessionUser != null}">Post a message</a>
+    </p>
+    <hr>
+
+    <div th:each="message: ${messages}">
+        <a th:href="@{/profile/{username}(username=${message.user.username})}">
+            <strong th:text="${'@' + message.user.username}"></strong>
+        </a>
+        <span th:text="${message.text}"></span>
+    </div>
+</body>
+</html>
