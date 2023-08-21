@@ -29,7 +29,7 @@
 
     <hr>
     <p>
-        <a th:href="@{/message}" th:if="${sessionUser != null}">Post a message</a>
+        <a th:href="@{/message}" th:if="${sessionUser != null && sessionUser.isAdmin() == true}">Post a Blog Entry</a>
     </p>
     <hr>
 

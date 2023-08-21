@@ -18,7 +18,7 @@ public class HomeController {
 
     @PostConstruct
     public void generateDummyData() {
-        BlogUser admin = new BlogUser("admin", "admin", true);
+        BlogUser admin = new BlogUser(1,"admin", "admin", true);
 
         blogUserRepository.save(admin);
     }

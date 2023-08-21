@@ -5,6 +5,7 @@
     <title>Post a message</title>
 </head>
 <body>
+
 <h1>Post a message</h1>
 <form th:action="@{/message}" th:object="${message}" method="post">
     <textarea th:field="*{text}"></textarea>
