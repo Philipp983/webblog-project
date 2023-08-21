@@ -31,14 +31,24 @@ public class CommentController {
 
         model.addAttribute("blogEntry", entry);
         model.addAttribute("comment", new Comment()); // Add an empty comment to the model
+        model.addAttribute("previousComments", entry.getComments()); // Adding list of previous comments to the model
 
         return "comment"; // Name of your comment page HTML (e.g., comment.html)
     }
 
     @PostMapping("/comment/{id}")
     public String addComment(@PathVariable Integer id, @ModelAttribute("comment") Comment comment, Model model) {
-        // Similar to above, you can retrieve the blog entry and save the comment
-        // Redirect to a success page or back to the blog entry page
-        return "redirect:/";
+        BlogEntry entry = blogEntryRepository.findById(id).orElse(null);
+
+        if (entry == null) {
+            // Handle the case when the entry is not found
+            return "error";
+        }
+
+        comment.setBlogEntry(entry); // Associate the comment with the blog entry
+
+        commentRepository.save(comment); // Save the comment to the database
+
+        return "redirect:/comment/" + id; // Redirect back to the comment page
     }
 }
