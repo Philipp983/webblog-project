@@ -38,7 +38,7 @@ public class BlogEntry {
     @JoinColumn(name = "blogUser_id")
     private BlogUser blogUser;
 
-    @OneToMany(mappedBy = "blogEntry")
+    @OneToMany(mappedBy = "blogEntry", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
     public BlogEntry() {

@@ -27,12 +27,7 @@ public class BlogEntryController {
         return "message";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteEntry(@PathVariable Integer id) {
-        // Optional validation to ensure only admin can delete
-        blogEntryRepository.deleteById(id);
-        return "redirect:/"; // Redirect to the homepage or wherever you list the blog entries
-    }
+
 
     @PostMapping(value ="/message")
     public String addEntry(@ModelAttribute("BlogEntry")BlogEntry entry, Model model) {
@@ -81,4 +76,12 @@ public class BlogEntryController {
         blogEntryRepository.save(existingEntry); // This will update the existing entry with the new values
         return "redirect:/"; // Redirect to the homepage or wherever you list the blog entries
     }
+
+    @GetMapping("/delete/{id}")
+    public String deleteEntry(@PathVariable Integer id) {
+        // Optional validation to ensure only admin can delete
+        blogEntryRepository.deleteById(id);
+        return "redirect:/"; // Redirect to the homepage or wherever you list the blog entries
+    }
+
 }
