@@ -31,11 +31,14 @@ public class BlogEntry {
     @Column(name = "date")
     private LocalDateTime date;
 
+    @Column(name = "last_edited")
+    private LocalDateTime lastEdited;
+
     @ManyToOne
     @JoinColumn(name = "blogUser_id")
     private BlogUser blogUser;
 
-    @OneToMany(mappedBy = "blogEntry")
+    @OneToMany(mappedBy = "blogEntry", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
     public BlogEntry() {

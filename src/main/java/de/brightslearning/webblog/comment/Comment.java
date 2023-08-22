@@ -30,6 +30,9 @@ public class Comment {
     @JoinColumn(name = "blog_User_id")
     private BlogUser blogUser;
 
+    @Column(name = "last_edited")
+    private LocalDateTime lastEdited;
+
     @ManyToOne
     @JoinColumn(name = "blogEntry_id")
     private BlogEntry blogEntry;

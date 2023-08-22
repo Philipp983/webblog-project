@@ -57,4 +57,32 @@ public class CommentController {
 
         return "redirect:/comment/" + id; // Redirect back to the comment page
     }
+
+    @GetMapping("/editcomment/{entryId}/{commentId}")
+    public String showEditCommentForm(@PathVariable Integer entryId, @PathVariable Integer commentId, Model model) {
+        Comment commentToEdit = commentRepository.findById(commentId).orElse(null);
+        if (commentToEdit == null) {
+            // Handle the case when the entry is not found
+            return "error";
+        }
+        model.addAttribute("commentToEdit", commentToEdit);
+        // Code to display the edit comment form
+        return "/comment/" + entryId;
+    }
+
+    @PostMapping("/editComment/{entryId}/{commentId}")
+    public String editComment(@PathVariable Integer entryId, @PathVariable Integer commentId, @ModelAttribute Comment comment) {
+        // Code to edit the comment
+
+        return "/";
+    }
+
+    @GetMapping("/deleteComment/{entryId}/{commentId}")
+    public String deleteComment(@PathVariable Integer entryId, @PathVariable Integer commentId) {
+        // Code to delete the comment
+        commentRepository.deleteById(commentId);
+        System.out.println(entryId);
+        System.out.println(commentId);
+        return "redirect:/comment/" + entryId;
+    }
 }
