@@ -52,4 +52,32 @@ public class BlogEntryController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/edit/{id}")
+    public String showModifyEntryPage(@PathVariable Integer id, Model model) {
+        BlogEntry entry = blogEntryRepository.findById(id).orElse(null);
+        if (entry == null) {
+            // Handle the case when the entry is not found
+            return "error";
+        }
+        model.addAttribute("blogEntry", entry); // Add the existing blog entry to the model
+        return "message"; // Name of your HTML file for modifying entries (e.g., modify.html)
+    }
+
+    @PostMapping("/edit/{id}")
+    public String modifyEntry(@PathVariable Integer id, @ModelAttribute("blogEntry") BlogEntry editedEntry) {
+        BlogEntry existingEntry = blogEntryRepository.findById(id).orElse(null);
+        if (existingEntry == null) {
+            // Handle the case when the entry is not found
+            return "error";
+        }
+        // Update the fields you want to change
+        editedEntry.setId(existingEntry.getId());
+        existingEntry.setTitle(editedEntry.getTitle());
+        existingEntry.setContent(editedEntry.getContent());
+
+
+        blogEntryRepository.save(existingEntry); // This will update the existing entry with the new values
+        return "redirect:/"; // Redirect to the homepage or wherever you list the blog entries
+    }
 }

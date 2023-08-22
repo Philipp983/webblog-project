@@ -49,7 +49,7 @@
             <a th:href="@{/delete/{id}(id=${entry.id})}" th:if="${sessionUser != null && sessionUser.isAdmin() == true}">Delete a Blog Entry</a>
         </p>
         <p>
-            <a th:href="@{/edit}" th:if="${sessionUser != null && sessionUser.isAdmin() == true}">Edit a Blog Entry</a>
+            <a th:href="@{/edit/{id}(id=${entry.id})}" th:if="${sessionUser != null && sessionUser.isAdmin() == true}">Edit a Blog Entry</a>
         </p>
     </li>
 </ul>
