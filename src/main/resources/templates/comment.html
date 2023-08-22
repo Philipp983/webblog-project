@@ -28,8 +28,10 @@
 <h3>Previous Comments:</h3>
 <ul th:if="${previousComments != null && !previousComments.isEmpty()}">
     <li th:each="prevComment : ${previousComments}">
+
+
         <p th:text="${prevComment.content}"></p>
-        <!-- You can also display other attributes like comment author, comment date, etc. -->
+
     </li>
 </ul>
 <p th:if="${previousComments == null || previousComments.isEmpty()}">No comments yet. Be the first to comment!</p>

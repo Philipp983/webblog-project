@@ -36,6 +36,8 @@
 
 <ul>
     <li class="box" th:each="entry : ${blogEntries}">
+        <!-- Author -->
+        <p><strong>Author:</strong> <span th:text="${entry.blogUser.username}"></span></p>
         <!-- Title -->
         <p><strong>Title:</strong> <span th:text="${entry.title}"></span></p>
 
@@ -44,6 +46,9 @@
 
         <!-- Date and Time -->
         <p><strong>Posted at:</strong> Date: <span th:text="${#temporals.format(entry.date, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(entry.date, 'HH:mm:ss')}"></span></p>
+        <p th:if="${entry.lastEdited != null}"><strong>Last edited:</strong> Date: <span th:text="${#temporals.format(entry.lastEdited, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(entry.lastEdited, 'HH:mm:ss')}"></span></p>
+
+
         <p><a th:href="@{/comment/{id}(id=${entry.id})}">Write a Comment</a></p>
         <p>
             <a th:href="@{/delete/{id}(id=${entry.id})}" th:if="${sessionUser != null && sessionUser.isAdmin() == true}">Delete a Blog Entry</a>

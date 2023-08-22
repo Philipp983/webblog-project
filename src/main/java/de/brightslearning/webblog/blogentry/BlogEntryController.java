@@ -71,6 +71,7 @@ public class BlogEntryController {
             // Handle the case when the entry is not found
             return "error";
         }
+        existingEntry.setLastEdited(LocalDateTime.now());
         // Update the fields you want to change
         editedEntry.setId(existingEntry.getId());
         existingEntry.setTitle(editedEntry.getTitle());

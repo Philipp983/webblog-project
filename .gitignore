@@ -1,3 +1,6 @@
+webblog.dat.trace.db
+webblog.dat.mv.db
+
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar

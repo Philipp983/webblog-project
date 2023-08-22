@@ -31,6 +31,9 @@ public class BlogEntry {
     @Column(name = "date")
     private LocalDateTime date;
 
+    @Column(name = "last_edited")
+    private LocalDateTime lastEdited;
+
     @ManyToOne
     @JoinColumn(name = "blogUser_id")
     private BlogUser blogUser;
