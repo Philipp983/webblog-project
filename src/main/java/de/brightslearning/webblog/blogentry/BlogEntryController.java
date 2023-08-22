@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
@@ -24,6 +25,13 @@ public class BlogEntryController {
     public String showEntries(Model model) {
         model.addAttribute("blogEntry", new BlogEntry()); // Add an empty blog entry to the model
         return "message";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteEntry(@PathVariable Integer id) {
+        // Optional validation to ensure only admin can delete
+        blogEntryRepository.deleteById(id);
+        return "redirect:/"; // Redirect to the homepage or wherever you list the blog entries
     }
 
     @PostMapping(value ="/message")

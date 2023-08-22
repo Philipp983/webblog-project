@@ -31,6 +31,7 @@
     <p>
         <a th:href="@{/message}" th:if="${sessionUser != null && sessionUser.isAdmin() == true}">Post a Blog Entry</a>
     </p>
+
     <hr>
 
 <ul>
@@ -44,6 +45,12 @@
         <!-- Date and Time -->
         <p><strong>Posted at:</strong> Date: <span th:text="${#temporals.format(entry.date, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(entry.date, 'HH:mm:ss')}"></span></p>
         <p><a th:href="@{/comment/{id}(id=${entry.id})}">Write a Comment</a></p>
+        <p>
+            <a th:href="@{/delete/{id}(id=${entry.id})}" th:if="${sessionUser != null && sessionUser.isAdmin() == true}">Delete a Blog Entry</a>
+        </p>
+        <p>
+            <a th:href="@{/edit}" th:if="${sessionUser != null && sessionUser.isAdmin() == true}">Edit a Blog Entry</a>
+        </p>
     </li>
 </ul>
 

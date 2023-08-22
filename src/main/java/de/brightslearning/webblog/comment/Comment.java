@@ -27,7 +27,7 @@ public class Comment {
     private LocalDateTime date;
 
     @ManyToOne
-    @JoinColumn(name = "blogUser_id")
+    @JoinColumn(name = "blog_User_id")
     private BlogUser blogUser;
 
     @ManyToOne
