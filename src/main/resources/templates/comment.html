@@ -31,6 +31,10 @@
 
 
         <p th:text="${prevComment.content}"></p>
+        <div th:if="${sessionUser.isAdmin() == false && prevComment.blogUser.id == sessionUser.id}">
+            <a th:href="@{/editComment/{id}(id=${prevComment.id})}">Edit Comment</a>
+            <a th:href="@{/deleteComment/{id}(id=${prevComment.id})}">Delete Comment</a>
+        </div>
 
     </li>
 </ul>
