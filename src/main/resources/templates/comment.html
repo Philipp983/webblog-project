@@ -19,7 +19,7 @@
 <!-- Form to submit a comment -->
 <form th:action="@{/comment/{id}(id=${blogEntry.id})}" method="post">
     <label for="comment">Write a comment:</label>
-    <textarea name="text" id="comment" rows="4" cols="50" required></textarea>
+    <textarea name="content" id="comment" rows="4" cols="50" required></textarea>
     <button type="submit">Submit Comment</button>
 </form>
 
