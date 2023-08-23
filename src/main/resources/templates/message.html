@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:if="${blogEntry.id == null}">Post a message</title>
+    <title th:if="${blogEntry.id != null}">Edit a message</title>
+</head>
+<body>
+
+<h1 th:if="${blogEntry.id == null}">Post a message</h1>
+<h1 th:if="${blogEntry.id != null}">Edit a message</h1>
+<form th:action="${blogEntry.id == null} ? @{/message} : @{/edit/{id}(id=${blogEntry.id})}" th:object="${blogEntry}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <label>Title:</label>
+    <input type="text" th:field="*{title}" />
+    <br>
+    <label>Content:</label>
+    <textarea th:field="*{content}"></textarea>
+    <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
+    <br>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>
+

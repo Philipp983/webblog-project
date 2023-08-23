@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Comment on Blog Entry</title>
+</head>
+<body>
+<header>
+    <!-- Navigation similar to home.html -->
+</header>
+
+<!-- Display the chosen blog entry -->
+<div class="box">
+    <h2><strong>Title:</strong> <span th:text="${blogEntry.title}"></span></h2>
+    <p><strong>Content:</strong> <span th:text="${blogEntry.content}"></span></p>
+    <p><strong>Posted at:</strong> Date: <span th:text="${#temporals.format(blogEntry.date, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(blogEntry.date, 'HH:mm:ss')}"></span></p>
+</div>
+
+<!-- Form to submit a comment -->
+<form th:action="@{/comment/{id}(id=${blogEntry.id})}" method="post">
+    <label for="comment">Write a comment:</label>
+
+    <textarea name="content" id="comment" rows="4" cols="25" required
+              th:text="${commentToEdit != null ? commentToEdit.content : ''}"></textarea>
+
+    <button type="submit" th:text="${commentToEdit != null ? 'Edit Comment' : 'Submit Comment'}"></button>
+</form>
+
+<hr>
+<!-- List previous comments -->
+<h3>Previous Comments:</h3>
+<ul th:if="${previousComments != null && !previousComments.isEmpty()}">
+    <li th:each="prevComment : ${previousComments}">
+
+        <!-- Comment creator -->
+        <p><strong>Written by:</strong> <span th:text="${prevComment.blogUser.username}"></span></p>
+<!--        The Comment-->
+        <p th:text="${prevComment.content}"></p>
+<!--        Some Time information-->
+        <p><strong>Posted at:</strong> Date: <span th:text="${#temporals.format(prevComment.date, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(prevComment.date, 'HH:mm:ss')}"></span></p>
+        <p th:if="${prevComment.lastEdited != null}"><strong>Last edited:</strong> Date: <span th:text="${#temporals.format(prevComment.lastEdited, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(entry.lastEdited, 'HH:mm:ss')}"></span></p>
+
+<!--        These Buttons are for not-Admins to edit and delete their own comments-->
+        <div th:if="${sessionUser.isAdmin() == false && prevComment.blogUser.id == sessionUser.id}">
+            <a th:href="@{/editComment/{entryId}/{commentId}(entryId=${blogEntry.id}, commentId=${prevComment.id})}">Edit Comment</a>
+            <a th:href="@{/deleteComment/{entryId}/{commentId}(entryId=${blogEntry.id}, commentId=${prevComment.id})}">Delete Comment</a>
+        </div>
+
+    </li>
+</ul>
+<p th:if="${previousComments == null || previousComments.isEmpty()}">No comments yet. Be the first to comment!</p>
+
+<footer>
+    <!-- Footer content if any -->
+</footer>
+</body>
+</html>

@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "blogUser")
+@Table(name = "blog_User")
 @Getter
 @Setter
 public class BlogUser {
@@ -48,5 +48,14 @@ public class BlogUser {
         this.username = username;
         this.password = password;
         this.admin = admin;
+    }
+
+    public BlogUser(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

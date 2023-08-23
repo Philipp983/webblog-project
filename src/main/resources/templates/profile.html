@@ -1,8 +1,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TO DO</title>
+
+    <title>Zwitscher</title>
 </head>
 <body>
 
@@ -21,7 +21,9 @@
 </header>
 <h1 th:text="${user.username}"></h1>
 
+<a th:href="@{/}">Home</a>
 
+<hr>
 
 
 <div th:each="message: ${user.messages}">
@@ -32,4 +34,6 @@
     </form>
 </div>
 </body>
+
 </html>
+
