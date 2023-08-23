@@ -16,15 +16,38 @@
     <p><strong>Posted at:</strong> Date: <span th:text="${#temporals.format(blogEntry.date, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(blogEntry.date, 'HH:mm:ss')}"></span></p>
 </div>
 
-<!-- Form to submit a comment -->
-<form th:action="@{/comment/{id}(id=${blogEntry.id})}" method="post">
+
+<form th:if="${commentToEdit == null}"
+      th:action="@{/comment/{id}(id=${blogEntry.id})}"
+      method="post">
+
     <label for="comment">Write a comment:</label>
-
-    <textarea name="content" id="comment" rows="4" cols="25" required
-              th:text="${commentToEdit != null ? commentToEdit.content : ''}"></textarea>
-
-    <button type="submit" th:text="${commentToEdit != null ? 'Edit Comment' : 'Submit Comment'}"></button>
+    <textarea name="content" id="comment" rows="4" cols="25" required></textarea>
+    <button type="submit">Submitty Comment</button>
 </form>
+
+<form th:unless="${commentToEdit == null}"
+      th:action="@{/editComment/{entryId}/{commentId}(entryId=${blogEntry.id}, commentId=${commentToEdit.id})}"
+      method="post">
+
+    <label for="comment">Write a comment:</label>
+    <textarea name="content" id="comment" rows="4" cols="25" required
+              th:text="${commentToEdit.content}"></textarea>
+    <button type="submit">Edit Comment</button>
+</form>
+
+
+<!--USE THIS AS A FAILBACK BLOCK-->
+
+<!-- Form to submit a comment -->
+<!--<form th:action="@{/comment/{id}(id=${blogEntry.id})}" method="post">-->
+<!--    <label for="comment">Write a comment:</label>-->
+
+<!--    <textarea name="content" id="comment" rows="4" cols="25" required-->
+<!--              th:text="${commentToEdit != null ? commentToEdit.content : ''}"></textarea>-->
+
+<!--    <button type="submit" th:text="${commentToEdit != null ? 'Edit Comment' : 'Submit Comment'}"></button>-->
+<!--</form>-->
 
 <hr>
 <!-- List previous comments -->
@@ -38,7 +61,7 @@
         <p th:text="${prevComment.content}"></p>
 <!--        Some Time information-->
         <p><strong>Posted at:</strong> Date: <span th:text="${#temporals.format(prevComment.date, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(prevComment.date, 'HH:mm:ss')}"></span></p>
-        <p th:if="${prevComment.lastEdited != null}"><strong>Last edited:</strong> Date: <span th:text="${#temporals.format(prevComment.lastEdited, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(entry.lastEdited, 'HH:mm:ss')}"></span></p>
+        <p th:if="${prevComment.lastEdited != null}"><strong>Last edited:</strong> Date: <span th:text="${#temporals.format(prevComment.lastEdited, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(prevComment.lastEdited, 'HH:mm:ss')}"></span></p>
 
 <!--        These Buttons are for not-Admins to edit and delete their own comments-->
         <div th:if="${sessionUser.isAdmin() == false && prevComment.blogUser.id == sessionUser.id}">

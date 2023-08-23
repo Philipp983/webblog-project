@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDateTime;
 
 @Controller
 public class CommentController {
@@ -58,23 +61,38 @@ public class CommentController {
         return "redirect:/comment/" + id; // Redirect back to the comment page
     }
 
-    @GetMapping("/editcomment/{entryId}/{commentId}")
-    public String showEditCommentForm(@PathVariable Integer entryId, @PathVariable Integer commentId, Model model) {
+    @GetMapping("/editComment/{entryId}/{commentId}")
+    public String showEditCommentForm(@PathVariable Integer entryId, @PathVariable Integer commentId, Model model, RedirectAttributes redirectAttributes) {
         Comment commentToEdit = commentRepository.findById(commentId).orElse(null);
         if (commentToEdit == null) {
             // Handle the case when the entry is not found
             return "error";
         }
         model.addAttribute("commentToEdit", commentToEdit);
+        redirectAttributes.addFlashAttribute("commentToEdit", commentToEdit);
+
         // Code to display the edit comment form
-        return "/comment/" + entryId;
+        return "redirect:/comment/" + entryId;
     }
 
     @PostMapping("/editComment/{entryId}/{commentId}")
-    public String editComment(@PathVariable Integer entryId, @PathVariable Integer commentId, @ModelAttribute Comment comment) {
+    public String editComment(@PathVariable Integer entryId, @PathVariable Integer commentId, @ModelAttribute Comment editedComment) {
         // Code to edit the comment
+        Comment originalComment = commentRepository.findById(commentId).orElse(null);
 
-        return "/";
+        if(originalComment == null) {
+            // Handle the case where the original comment doesn't exist
+            return "error";
+        }
+
+//        originalComment.setId((editedComment.getId()));
+        originalComment.setLastEdited(LocalDateTime.now());
+        originalComment.setContent(editedComment.getContent());
+        // Add any other fields to update, if necessary.
+
+        commentRepository.save(originalComment); // Assuming you have a save method in your repository.
+
+        return "redirect:/comment/" + entryId; // Redirect back to the comment page to display the updated comment.
     }
 
     @GetMapping("/deleteComment/{entryId}/{commentId}")
