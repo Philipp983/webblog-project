@@ -29,13 +29,28 @@ public class BlogUser {
     @Column(name = "admin")
     private boolean admin;
 
-    @OneToMany(mappedBy = "blogUser", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BlogEntry> blogEntries = new ArrayList<>();
+//    @OneToMany(mappedBy = "blogUser", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<BlogEntry> blogEntries;
+//
+//    @OneToMany(mappedBy = "blogUser", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Comment> comments;
 
-    @OneToMany(mappedBy = "blogUser", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
+//    @OneToMany(mappedBy = "blogUser", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<BlogEntry> blogEntries = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "blogUser", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "blogUser")
+    private List<BlogEntry> blogEntries;
+
+    @OneToMany(mappedBy = "blogUser")
+    private List<Comment> comments;
+
 
     public BlogUser() {
+//        this.blogEntries = new ArrayList<>();
+//        this.comments = new ArrayList<>();
     }
 
     public BlogUser(Integer id, String username, String password, boolean admin) {
