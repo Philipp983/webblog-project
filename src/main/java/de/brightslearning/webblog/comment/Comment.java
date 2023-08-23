@@ -33,12 +33,15 @@ public class Comment {
     @Column(name = "last_edited")
     private LocalDateTime lastEdited;
 
+    @Column(name ="isDeleted")
+    private Boolean deleted;
+
     @ManyToOne
     @JoinColumn(name = "blogEntry_id")
     private BlogEntry blogEntry;
 
     public Comment() {
-
+        this.deleted = false;
         this.date = LocalDateTime.now();
     }
 
@@ -46,10 +49,25 @@ public class Comment {
         this.id = id;
         this.content = content;
         this.date = LocalDateTime.now();
+        this.deleted = false;
     }
 
     public Comment(String content, LocalDateTime date) {
         this.content = content;
         this.date = LocalDateTime.now();
+        this.deleted = false;
     }
+
+    public void setDeleted(Boolean b) {
+        this.deleted = b;
+    }
+
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public Boolean isDeleted() {
+        return this.deleted;
+    }
+
 }

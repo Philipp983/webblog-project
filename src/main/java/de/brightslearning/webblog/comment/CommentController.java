@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Controller
 public class CommentController {
@@ -107,6 +108,21 @@ public class CommentController {
     public String deleteComment(@PathVariable Integer entryId, @PathVariable Integer commentId) {
         // Code to delete the comment
         commentRepository.deleteById(commentId);
+        System.out.println(entryId);
+        System.out.println(commentId);
+        return "redirect:/comment/" + entryId;
+    }
+
+    @GetMapping("/setAsDeleted/{entryId}/{commentId}")
+    public String setAsDeleted(@PathVariable Integer entryId, @PathVariable Integer commentId) {
+        Optional<Comment> optionalComment = commentRepository.findById(commentId);
+
+        if (optionalComment.isPresent()) {
+            Comment comment = optionalComment.get();
+            comment.setDeleted(true);  // assuming you have a setter named setIsDeleted in your Comment entity
+            commentRepository.save(comment);
+        }
+
         System.out.println(entryId);
         System.out.println(commentId);
         return "redirect:/comment/" + entryId;
