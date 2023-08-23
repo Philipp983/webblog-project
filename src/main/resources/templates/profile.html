@@ -18,21 +18,34 @@
         </form>
     </nav>
     <hr>
+    <form th:if="${sessionUser != null}" method="post" th:action="@{/deleteAccount}">
+        <button type="submit">Delete Your Account</button>
+    </form>
+    <!-- Admin Panel to delete other users -->
+    <div th:if="${sessionUser != null and sessionUser.admin}">
+        <h2>Admin Panel</h2>
+        <form method="post" th:action="@{/deleteUserByUsername}">
+            <label for="userToDelete">Username to delete:</label>
+            <input type="text" id="userToDelete" name="userToDelete" th:value="${userToDelete}" placeholder="Enter username...">
+            <button type="submit">Delete User By Username</button>
+        </form>
+    </div>
 </header>
-<h1 th:text="${user.username}"></h1>
+<h1 th:text="${sessionUser.username}"></h1>
 
 <a th:href="@{/}">Home</a>
 
 <hr>
 
 
-<div th:each="message: ${user.messages}">
-    <strong th:text="${#dates.format(message.postedAt)}"></strong>
-    <span th:text="${message.text}"></span>
-    <form th:if="${user == sessionUser}" method="post" th:action="@{/messageDelete(messageId=${message.id})}">
-        <button type="submit">Delete</button>
-    </form>
-</div>
+<!--<div th:each="message: ${user.messages}">-->
+<!--    <strong th:text="${#dates.format(message.postedAt)}"></strong>-->
+<!--    <span th:text="${message.text}"></span>-->
+<!--<div>-->
+<!--    <form th:if="${user == sessionUser}" method="post" th:action="@{/messageDelete(messageId=${message.id})}">-->
+<!--        <button type="submit">Delete</button>-->
+<!--    </form>-->
+<!--</div>-->
 </body>
 
 </html>

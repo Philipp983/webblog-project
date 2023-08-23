@@ -10,4 +10,5 @@ public interface BlogUserRepository extends JpaRepository<BlogUser, Integer> {
     boolean existsByUsername(String username);
     BlogUser findByUsername(String username);
 
+
 }

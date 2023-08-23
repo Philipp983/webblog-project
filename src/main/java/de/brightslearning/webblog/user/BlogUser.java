@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,11 +29,11 @@ public class BlogUser {
     @Column(name = "admin")
     private boolean admin;
 
-    @OneToMany(mappedBy = "blogUser")
-    private List<BlogEntry> blogEntries;
+    @OneToMany(mappedBy = "blogUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BlogEntry> blogEntries = new ArrayList<>();
 
-    @OneToMany(mappedBy = "blogUser")
-    private List<Comment> comments;
+    @OneToMany(mappedBy = "blogUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     public BlogUser() {
     }
