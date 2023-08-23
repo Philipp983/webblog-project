@@ -71,7 +71,7 @@ public class BlogUserRegistrationController {
         BlogUser blogUser = (BlogUser) model.getAttribute("sessionUser");
 
 
-        if (blogUser != null) {
+        if (blogUser != null && blogUser.getId() != 1) {
             List<Session> sessionsForUser = sessionRepository.findByBlogUser(blogUser);
             for(Session s : sessionsForUser) {
                 sessionRepository.delete(s);
@@ -79,6 +79,8 @@ public class BlogUserRegistrationController {
             blogUserRepository.delete(blogUser);
 //            return "redirect:/logout";
 
+        } else if (blogUser != null && blogUser.getId() == 1) {
+            return "redirect:/profile";
         }
         return "redirect:/login";
     }
@@ -88,7 +90,7 @@ public class BlogUserRegistrationController {
     public String deleteUserByUsername(@RequestParam String userToDelete, Model model) {
         Optional<BlogUser> optionalUserToDelete = Optional.ofNullable(blogUserRepository.findByUsername(userToDelete));
 
-        if (optionalUserToDelete.isPresent()) {
+        if (optionalUserToDelete.isPresent() && optionalUserToDelete.get().getId() != 1) {
             BlogUser user = optionalUserToDelete.get();
 
             // Delete all sessions for this user
@@ -101,6 +103,8 @@ public class BlogUserRegistrationController {
             blogUserRepository.delete(user);
 
             return "redirect:/profile";  // or wherever you want to redirect after deletion
+        } else {
+            System.out.println("cant delete admin numero uno");
         }
 
         // Maybe add an error message if user wasn't found

@@ -52,6 +52,6 @@ public class ChangePasswordController {
 
         blogUserRepository.save(blogUser);
 
-        return "redirect:/login";
+        return "redirect:/";
     }
 }
