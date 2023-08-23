@@ -1,11 +1,12 @@
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-
-    <title>Zwitscher</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TO DO</title>
 </head>
-<body>
 
+<body>
 <header>
     <nav>
         <th:block th:if="${sessionUser == null}">
@@ -19,21 +20,22 @@
     </nav>
     <hr>
 </header>
-<h1 th:text="${user.username}"></h1>
 
-<a th:href="@{/}">Home</a>
-
-<hr>
+<h1 th:text="${'Welcome, Stranger!'}" th:if="${sessionUser == null}"></h1>
+<h1 th:text="${'Welcome, ' + sessionUser.username}" th:if="${sessionUser != null}"></h1>
 
 
-<div th:each="message: ${user.messages}">
-    <strong th:text="${#dates.format(message.postedAt)}"></strong>
-    <span th:text="${message.text}"></span>
-    <form th:if="${user == sessionUser}" method="post" th:action="@{/messageDelete(messageId=${message.id})}">
-        <button type="submit">Delete</button>
-    </form>
-</div>
+<section>
+    Blogpost 1
+</section>
+
+<section>
+    Blogpost 2
+</section>
+
+<section>
+    Blogpost 3
+</section>
+
 </body>
-
 </html>
-
