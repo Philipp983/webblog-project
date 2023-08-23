@@ -38,10 +38,9 @@ public class BlogEntryController {
             // Maybe redirect to the login page or show an error message.
             return "redirect:/login";
         }
+
         entry.setBlogUser(currentUser);
-
         entry.setDate(LocalDateTime.now());
-
         blogEntryRepository.save(entry);
 
         return "redirect:/";

@@ -34,7 +34,7 @@ public class CommentController {
         }
 
         model.addAttribute("blogEntry", entry);
-        model.addAttribute("comment", new Comment()); // Add an empty comment to the model
+//        model.addAttribute("comment", new Comment()); // Add an empty comment to the model, but forgot why so no free models
         model.addAttribute("previousComments", entry.getComments()); // Adding list of previous comments to the model
 
         return "comment"; // Name of your comment page HTML (e.g., comment.html)
@@ -42,8 +42,10 @@ public class CommentController {
 
     @PostMapping("/comment/{id}")
     public String addComment(@PathVariable Integer id, @ModelAttribute("comment") Comment comment, Model model) {
+
         BlogEntry entry = blogEntryRepository.findById(id).orElse(null);
         BlogUser currentUser = (BlogUser) model.getAttribute("sessionUser");
+
         if(currentUser == null) {
             // The user is not logged in or the session expired. Handle this case appropriately.
             // Maybe redirect to the login page or show an error message.
@@ -53,10 +55,16 @@ public class CommentController {
             // Handle the case when the entry is not found
             return "error";
         }
-        comment.setBlogUser(currentUser);
-        comment.setBlogEntry(entry); // Associate the comment with the blog entry
+        //issue seems to be this block right here. without the
+        Comment anotherComment = new Comment();
+        anotherComment.setBlogUser(currentUser);
+        anotherComment.setBlogEntry(entry);
+        anotherComment.setContent(comment.getContent());
 
-        commentRepository.save(comment); // Save the comment to the database
+//        comment.setBlogUser(currentUser);
+//        comment.setBlogEntry(entry); // Associate the comment with the blog entry
+
+        commentRepository.save(anotherComment); // Save the comment to the database
 
         return "redirect:/comment/" + id; // Redirect back to the comment page
     }

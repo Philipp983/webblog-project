@@ -68,6 +68,10 @@
             <a th:href="@{/editComment/{entryId}/{commentId}(entryId=${blogEntry.id}, commentId=${prevComment.id})}">Edit Comment</a>
             <a th:href="@{/deleteComment/{entryId}/{commentId}(entryId=${blogEntry.id}, commentId=${prevComment.id})}">Delete Comment</a>
         </div>
+        <div th:if="${sessionUser.isAdmin() == true}">
+            <a th:href="@{/editComment/{entryId}/{commentId}(entryId=${blogEntry.id}, commentId=${prevComment.id})}">Edit Comment</a>
+            <a th:href="@{/deleteComment/{entryId}/{commentId}(entryId=${blogEntry.id}, commentId=${prevComment.id})}">Delete Comment</a>
+        </div>
 
     </li>
 </ul>

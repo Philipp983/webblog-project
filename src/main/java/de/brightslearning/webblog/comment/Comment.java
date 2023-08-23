@@ -38,6 +38,7 @@ public class Comment {
     private BlogEntry blogEntry;
 
     public Comment() {
+
         this.date = LocalDateTime.now();
     }
 
