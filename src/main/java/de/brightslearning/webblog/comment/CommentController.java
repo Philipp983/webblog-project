@@ -127,4 +127,19 @@ public class CommentController {
         System.out.println(commentId);
         return "redirect:/comment/" + entryId;
     }
+
+    @GetMapping("/restoreDeleted/{entryId}/{commentId}")
+    public String restoreDeleted(@PathVariable Integer entryId, @PathVariable Integer commentId) {
+        Optional<Comment> optionalComment = commentRepository.findById(commentId);
+
+        if (optionalComment.isPresent()) {
+            Comment comment = optionalComment.get();
+            comment.setDeleted(false);  // assuming you have a setter named setIsDeleted in your Comment entity
+            commentRepository.save(comment);
+        }
+
+        System.out.println(entryId);
+        System.out.println(commentId);
+        return "redirect:/comment/" + entryId;
+    }
 }

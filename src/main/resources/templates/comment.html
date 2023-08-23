@@ -76,6 +76,8 @@
         <div th:if="${sessionUser.isAdmin() == true}">
             <a th:href="@{/editComment/{entryId}/{commentId}(entryId=${blogEntry.id}, commentId=${prevComment.id})}">Edit Comment</a>
             <a th:href="@{/deleteComment/{entryId}/{commentId}(entryId=${blogEntry.id}, commentId=${prevComment.id})}">Delete Comment</a>
+            <a th:href="@{/setAsDeleted/{entryId}/{commentId}(entryId=${blogEntry.id}, commentId=${prevComment.id})}">Set as Deleted Comment</a>
+            <a th:href="@{/restoreDeleted/{entryId}/{commentId}(entryId=${blogEntry.id}, commentId=${prevComment.id})}">Restore Comment</a>
         </div>
 
     </li>
