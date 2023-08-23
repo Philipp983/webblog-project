@@ -38,13 +38,12 @@ public class SessionController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute("login") LoginDTO login, BindingResult bindingResult, HttpServletResponse response) {
+    public String login(@ModelAttribute("login") LoginDTO login, BindingResult bindingResult, HttpServletResponse response, Model model) {
         Optional<BlogUser> optionalUser = blogUserRepository.findByUsernameAndPassword(login.getUsername(), login.getPassword());
 
         if (optionalUser.isPresent()) {
             Session session = new Session(optionalUser.get(), Instant.now().plusSeconds(7 * 24 * 60 * 60)); //expires one week from now
             sessionRepository.save(session);
-
 
             //store the session ID in a cookie to keep the username secret
             Cookie cookie = new Cookie("sessionId", session.getId().toString());
@@ -70,4 +69,5 @@ public class SessionController {
 
         return "redirect:/";
     }
+
 }

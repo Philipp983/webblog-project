@@ -3,29 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
 <body>
 <header>
-    <nav>
-        <th:block th:if="${sessionUser == null}">
-            <a th:href="@{/login}">Login</a>
-            <a th:href="@{/register}">Sign up</a>
-        </th:block>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <!-- Your site logo or name here -->
+            </a>
 
-        <form th:if="${sessionUser != null}" method="post" th:action="@{/logout}">
-            <button type="submit">Logout</button>
-        </form>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/">Home</a>
+                <!-- Add more navigation links as needed -->
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <th:block th:if="${sessionUser == null}">
+                            <a class="button is-primary" href="@{/login}">Login</a>
+                            <a class="button is-light" href="@{/register}">Sign up</a>
+                        </th:block>
+
+                        <form th:if="${sessionUser != null}" method="post" action="@{/logout}">
+                            <button class="button is-danger" type="submit">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </nav>
-    <hr>
 </header>
 
-<h1>Login</h1>
-<form th:action="@{/login}" th:object="${login}" method="post">
-    Username: <input type="text" th:field="*{username}"><br/>
-    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
-    Password: <input type="password" th:field="*{password}"><br/>
-    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
-    <button type="submit">Login</button>
-</form>
+<section class="section">
+    <div class="container">
+        <h1 class="title">Login</h1>
+        <form class="box" th:action="@{/login}" th:object="${login}" method="post">
+            <div class="field">
+                <label class="label">Username</label>
+                <div class="control has-icons-left">
+                    <input class="input" type="text" th:field="*{username}" placeholder="Username">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                    </span>
+                </div>
+                <p class="help is-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+            </div>
+
+            <div class="field">
+                <label class="label">Password</label>
+                <div class="control has-icons-left">
+                    <input class="input" type="password" th:field="*{password}" placeholder="Password">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                </div>
+                <p class="help is-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <button class="button is-primary" type="submit">Login</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
 </body>
 </html>

@@ -29,15 +29,15 @@ public class BlogUserRegistrationController {
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("registration") RegistrationDTO registration, BindingResult bindingResult) {
 
-        if(!registration.getPassword1().equals(registration.getPassword2())) {
+        if (!registration.getPassword1().equals(registration.getPassword2())) {
             bindingResult.addError(new FieldError("registration", "password2", "passwords are not matching"));
         }
 
-        if(blogUserRepository.existsByUsername(registration.getUsername())) {
+        if (blogUserRepository.existsByUsername(registration.getUsername())) {
             bindingResult.addError(new FieldError("registration", "username", "username already in use"));
         }
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "register";
         }
 
@@ -47,4 +47,21 @@ public class BlogUserRegistrationController {
 
         return "redirect:/login";
     }
+
+    @PostMapping("/delete-account")
+    public String deleteAccount(Model model) {
+        BlogUser blogUser = (BlogUser) model.getAttribute("sessionUser");
+        if (blogUser != null) {
+            blogUserRepository.delete(blogUser);
+            return "redirect:/login";
+
+        }
+        return "redirect:/login";
+    }
+
+
 }
+
+
+
+

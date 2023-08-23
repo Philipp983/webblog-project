@@ -8,6 +8,6 @@ public interface BlogUserRepository extends JpaRepository<BlogUser, Integer> {
 
     Optional<BlogUser> findByUsernameAndPassword(String username, String password);
     boolean existsByUsername(String username);
-    Optional<BlogUser> findByUsername(String username);
+    BlogUser findByUsername(String username);
 
 }

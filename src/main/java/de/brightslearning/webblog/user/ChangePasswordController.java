@@ -23,7 +23,6 @@ public class ChangePasswordController {
     @GetMapping("/change-password")
     public String showChangePasswordForm(Model model) {
         BlogUser currentUser = (BlogUser) model.getAttribute("sessionUser");
-        assert currentUser != null;
         model.addAttribute("changePassword", new ChangePasswordDTO(currentUser.getUsername(), currentUser.getPassword()));
         return "change-password";
     }
@@ -35,7 +34,7 @@ public class ChangePasswordController {
         BlogUser blogUser = (BlogUser) model.getAttribute("sessionUser");
 //        BlogUser blogUser = blogUserRepository.findByUsername(changePassword.getUsername());
 
-        if (blogUser == null || !blogUser.getPassword().equals(changePassword.getCurrentPassword())) {
+        if (!blogUser.getPassword().equals(changePassword.getCurrentPassword())) {
             bindingResult.addError(new FieldError("changePassword", "currentPassword", "Invalid current password"));
         }
 
@@ -44,14 +43,12 @@ public class ChangePasswordController {
             bindingResult.addError(new FieldError("changePassword", "confirmPassword", "New passwords do not match"));
         }
 
-        if (bindingResult.hasErrors()) {
-            return "change-password";
-        }
+//        if (bindingResult.hasErrors()) {
+//            return "change-password";
+//        }
 
         // Update the password
-        assert blogUser != null;
         blogUser.setPassword(changePassword.getNewPassword1());
-        System.out.println(changePassword.getNewPassword1());
 
         blogUserRepository.save(blogUser);
 

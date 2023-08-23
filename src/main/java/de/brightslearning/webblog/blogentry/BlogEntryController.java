@@ -44,7 +44,6 @@ public class BlogEntryController {
 
         blogEntryRepository.save(entry);
 
-
         return "redirect:/";
     }
 
