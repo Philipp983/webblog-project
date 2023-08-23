@@ -2,88 +2,113 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <title>Zwitscher</title>
 </head>
-<body>
+<body class="ml-6 mr-6">
 <header>
-    <nav>
-        <th:block th:if="${sessionUser == null}">
-            <a th:href="@{/login}">Login</a>
-            <a th:href="@{/register}">Sign up</a>
-        </th:block>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
 
-        <form th:if="${sessionUser != null}" method="post" th:action="@{/logout}">
-            <button type="submit">Logout</button>
-        </form>
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <!-- Your site logo or name here -->
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+               data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/">Home</a>
+                <!-- Add more navigation links as needed -->
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <th:block th:if="${sessionUser == null}">
+                            <a class="button is-primary" th:href="@{/login}">Login</a>
+                            <a class="button is-primary is-light" th:href="@{/register}">Sign up</a>
+                        </th:block>
+                        <th:block th:if="${sessionUser != null}">
+                            <a class="button is-link" th:href="@{/profile}">Profile</a>
+                            <form method="post" th:action="@{/logout}">
+                                <button class="button is-danger" type="submit">Logout</button>
+                            </form>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
     </nav>
-    <hr>
 </header>
-<h1 th:text="${'Welcome, unknown user'}" th:if="${sessionUser == null}"></h1>
-<h1 th:text="${'Welcome, ' + sessionUser.username}" th:if="${sessionUser != null}"></h1>
-<a th:href="@{/login}" th:if="${sessionUser == null}">Login</a>
-<a th:href="@{/register}">Sign up</a>
 
-<form th:if="${sessionUser != null}" method="post" th:action="@{/logout}">
-    <button type="submit">Logout</button>
-</form>
-<a th:href="@{/change-password}" th:if="${sessionUser != null}">Change Password</a>
-<form th:if="${sessionUser != null}" method="post" th:action="@{/deleteAccount}">
-    <button type="submit">Delete Account</button>
-</form>
+<h1 class="subtitle is-3" th:text="${'Welcome, Stranger!'}" th:if="${sessionUser == null}"></h1>
+<h1 class="subtitle is-3" th:text="${'Welcome, ' + sessionUser.username + '!'}" th:if="${sessionUser != null}"></h1>
+<!--<a th:href="@{/login}" th:if="${sessionUser == null}">Login</a>-->
+<!--<a th:href="@{/register}">Sign up</a>-->
 
-<hr>
+<!--<form th:if="${sessionUser != null}" method="post" th:action="@{/logout}">-->
+<!--    <button type="submit">Logout</button>-->
+<!--</form>-->
+<!--<a th:href="@{/change-password}" th:if="${sessionUser != null}">Change Password</a>-->
+<!--<form th:if="${sessionUser != null}" method="post" th:action="@{/deleteAccount}">-->
+<!--    <button type="submit">Delete Account</button>-->
+<!--</form>-->
+
+
 <p>
-    <a th:href="@{/message}" th:if="${sessionUser != null && sessionUser.isAdmin() == true}">Post a Blog Entry</a>
+    <a class="button is-primary" th:href="@{/message}" th:if="${sessionUser != null && sessionUser.isAdmin() == true}">Create
+        new Blog Entry</a>
 </p>
 
-<hr>
+<section class="mt-6">
+    <h2 class="subtitle is-3">Latest Blog Entries</h2>
+    <ul>
+        <li class="box" th:each="entry : ${blogEntries}">
+            <!-- Author -->
+            <p class="is-size-6">Author: <span th:text="${entry.blogUser.username}"></span></p>
+            <!-- Title -->
+            <p class="is-size-3"> <!--<strong>Title:</strong>--><strong> <span th:text="${entry.title}"></span></strong>
+            </p>
 
-<ul>
-    <li class="box" th:each="entry : ${blogEntries}">
-        <!-- Author -->
-        <p><strong>Author:</strong> <span th:text="${entry.blogUser.username}"></span></p>
-        <!-- Title -->
-        <p><strong>Title:</strong> <span th:text="${entry.title}"></span></p>
+            <!-- Content -->
+            <p class="is-size-4"> <!--<strong>Content:</strong>--> <span th:text="${entry.content}"></span></p>
 
-        <!-- Content -->
-        <p><strong>Content:</strong> <span th:text="${entry.content}"></span></p>
+            <!-- Date and Time -->
+            <p class="is-size-6">Posted at: Date: <span th:text="${#temporals.format(entry.date, 'yyyy-MM-dd')}"></span>
+                Time: <span th:text="${#temporals.format(entry.date, 'HH:mm:ss')}"></span></p>
+            <p th:if="${entry.lastEdited != null}">Last edited: Date: <span
+                    th:text="${#temporals.format(entry.lastEdited, 'yyyy-MM-dd')}"></span> Time: <span
+                    th:text="${#temporals.format(entry.lastEdited, 'HH:mm:ss')}"></span></p>
 
-        <!-- Date and Time -->
-        <p><strong>Posted at:</strong> Date: <span th:text="${#temporals.format(entry.date, 'yyyy-MM-dd')}"></span>
-            Time: <span th:text="${#temporals.format(entry.date, 'HH:mm:ss')}"></span></p>
-        <p th:if="${entry.lastEdited != null}"><strong>Last edited:</strong> Date: <span
-                th:text="${#temporals.format(entry.lastEdited, 'yyyy-MM-dd')}"></span> Time: <span
-                th:text="${#temporals.format(entry.lastEdited, 'HH:mm:ss')}"></span></p>
+            <div class="field is-grouped">
+                <th:block th:if="${sessionUser != null}">
+            <p class="button is-primary mr-6"><a th:href="@{/comment/{id}(id=${entry.id})}">Write a Comment</a></p>
+            </th:block>
+                <th:block th:if="${sessionUser != null && sessionUser.isAdmin() == true}">
+            <p class="button is-primary is-light">
+                <a th:href="@{/delete/{id}(id=${entry.id})}"
+                   th:if="${sessionUser != null && sessionUser.isAdmin() == true}">Delete a Blog Entry</a>
+            </p>
+            <p class="button is-primary is-light ml-2">
+                <a th:href="@{/edit/{id}(id=${entry.id})}"
+                   th:if="${sessionUser != null && sessionUser.isAdmin() == true}">Edit
+                    a Blog Entry</a>
+            </p>
+            </th:block>
+            </div>
+        </li>
+    </ul>
 
+</section>
 
-        <p><a th:href="@{/comment/{id}(id=${entry.id})}">Write a Comment</a></p>
-        <p>
-            <a th:href="@{/delete/{id}(id=${entry.id})}"
-               th:if="${sessionUser != null && sessionUser.isAdmin() == true}">Delete a Blog Entry</a>
-        </p>
-        <p>
-            <a th:href="@{/edit/{id}(id=${entry.id})}" th:if="${sessionUser != null && sessionUser.isAdmin() == true}">Edit
-                a Blog Entry</a>
-        </p>
-    </li>
-</ul>
-
-
-<!--<ul>-->
-<!--    <li class="box" th:each="entry : ${blogEntries}">-->
-<!--        &lt;!&ndash;            <strong th:text="${entry.name}"></strong> - &ndash;&gt;-->
-<!--        <p><span th:text="${entry.title}"></span></p>-->
-<!--        <p><span th:text="${entry.content}"></span></p>-->
-<!--        <p><strong>Posted at:</strong> Date: <span th:text="${#temporals.format(entry.date, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(entry.date, 'HH:mm:ss')}"></span></p>-->
-
-<!--    </li>-->
-<!--</ul>-->
-
-<!--    <div th:each="message: ${blogEntries}">-->
-<!--        <a th:href="@{/profile/{username}(username=${message.user.username})}">-->
-<!--            <strong th:text="${'@' + message.user.username}"></strong>-->
-<!--        </a>-->
-<!--        <span th:text="${message.text}"></span>-->
-<!--    </div>-->
 </body>
 </html>

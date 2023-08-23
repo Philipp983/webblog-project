@@ -2,54 +2,91 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <title>Comment on Blog Entry</title>
 </head>
 <body>
 <header>
-    <!-- Navigation similar to home.html -->
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <!-- Your site logo or name here -->
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/">Home</a>
+                <!-- Add more navigation links as needed -->
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <th:block th:if="${sessionUser == null}">
+                            <a class="button is-primary" th:href="@{/login}">Login</a>
+                            <a class="button is-primary is-light" th:href="@{/register}">Sign up</a>
+                        </th:block>
+
+                        <form th:if="${sessionUser != null}" method="post" action="@{/logout}">
+                            <button class="button is-danger" type="submit">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
 </header>
 
 <!-- Display the chosen blog entry -->
-<div class="box">
-    <h2><strong>Title:</strong> <span th:text="${blogEntry.title}"></span></h2>
-    <p><strong>Content:</strong> <span th:text="${blogEntry.content}"></span></p>
-    <p><strong>Posted at:</strong> Date: <span th:text="${#temporals.format(blogEntry.date, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(blogEntry.date, 'HH:mm:ss')}"></span></p>
-</div>
+<section class="box">
+    <p class="is-size-6">Author: <span th:text="${blogEntry.blogUser.username}"></span></p>
+    <h2 class="is-size-3"><strong> <span th:text="${blogEntry.title}"></span></strong></h2>
+    <p class="is-size-4"> <span th:text="${blogEntry.content}"></span></p>
+    <p class="is-size-6">Posted at: Date: <span th:text="${#temporals.format(blogEntry.date, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(blogEntry.date, 'HH:mm:ss')}"></span></p>
+    <br>
 
 <!-- Form to submit a comment -->
 <form th:action="@{/comment/{id}(id=${blogEntry.id})}" method="post">
+    <div class="field">
     <label for="comment">Write a comment:</label>
-
-    <textarea name="content" id="comment" rows="4" cols="25" required
+    <textarea class="textarea" name="content" id="comment" rows="4" cols="25" required
               th:text="${commentToEdit != null ? commentToEdit.content : ''}"></textarea>
-
-    <button type="submit" th:text="${commentToEdit != null ? 'Edit Comment' : 'Submit Comment'}"></button>
+    </div>
+    <button class="button is-primary" type="submit" th:text="${commentToEdit != null ? 'Edit Comment' : 'Submit Comment'}"></button>
 </form>
 
 <hr>
 <!-- List previous comments -->
-<h3>Previous Comments:</h3>
+<h3 class="subtitle is-4">Previous Comments:</h3>
 <ul th:if="${previousComments != null && !previousComments.isEmpty()}">
     <li th:each="prevComment : ${previousComments}">
 
         <!-- Comment creator -->
-        <p><strong>Written by:</strong> <span th:text="${prevComment.blogUser.username}"></span></p>
+        <p class="is-size-6">Written by: <span th:text="${prevComment.blogUser.username}"></span></p>
 <!--        The Comment-->
-        <p th:text="${prevComment.content}"></p>
+        <p class="is-size-5" th:text="${prevComment.content}"></p>
 <!--        Some Time information-->
-        <p><strong>Posted at:</strong> Date: <span th:text="${#temporals.format(prevComment.date, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(prevComment.date, 'HH:mm:ss')}"></span></p>
-        <p th:if="${prevComment.lastEdited != null}"><strong>Last edited:</strong> Date: <span th:text="${#temporals.format(prevComment.lastEdited, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(entry.lastEdited, 'HH:mm:ss')}"></span></p>
+        <p class="is-size-6">Posted at: Date: <span th:text="${#temporals.format(prevComment.date, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(prevComment.date, 'HH:mm:ss')}"></span></p>
+        <p class="is-size-6" th:if="${prevComment.lastEdited != null}">Last edited: Date: <span th:text="${#temporals.format(prevComment.lastEdited, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(entry.lastEdited, 'HH:mm:ss')}"></span></p>
 
 <!--        These Buttons are for not-Admins to edit and delete their own comments-->
         <div th:if="${sessionUser.isAdmin() == false && prevComment.blogUser.id == sessionUser.id}">
-            <a th:href="@{/editComment/{entryId}/{commentId}(entryId=${blogEntry.id}, commentId=${prevComment.id})}">Edit Comment</a>
-            <a th:href="@{/deleteComment/{entryId}/{commentId}(entryId=${blogEntry.id}, commentId=${prevComment.id})}">Delete Comment</a>
+            <a class="button is-primary" th:href="@{/editComment/{entryId}/{commentId}(entryId=${blogEntry.id}, commentId=${prevComment.id})}">Edit Comment</a>
+            <a class="button is-primary" th:href="@{/deleteComment/{entryId}/{commentId}(entryId=${blogEntry.id}, commentId=${prevComment.id})}">Delete Comment</a>
         </div>
 
     </li>
 </ul>
-<p th:if="${previousComments == null || previousComments.isEmpty()}">No comments yet. Be the first to comment!</p>
-
+<p class="is-size-4" th:if="${previousComments == null || previousComments.isEmpty()}">No comments yet. Be the first to comment!</p>
+</section>
 <footer>
     <!-- Footer content if any -->
 </footer>
