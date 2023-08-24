@@ -21,9 +21,9 @@ public class ChangePasswordController {
     }
 
     @GetMapping("/change-password")
-    public String showChangePasswordForm(Model model) {
+    public String changePassword(Model model) {
         BlogUser currentUser = (BlogUser) model.getAttribute("sessionUser");
-        model.addAttribute("changePassword", new ChangePasswordDTO(currentUser.getUsername(), currentUser.getPassword()));
+        model.addAttribute("changePassword", new ChangePasswordDTO(currentUser.getUsername(), "","",""));
         return "change-password";
     }
 
@@ -31,30 +31,24 @@ public class ChangePasswordController {
     public String changePassword(@Valid @ModelAttribute("changePassword") ChangePasswordDTO changePassword,
                                  BindingResult bindingResult, Model model) {
 
-        BlogUser blogUser = (BlogUser) model.getAttribute("sessionUser");
-//        BlogUser blogUser = blogUserRepository.findByUsername(changePassword.getUsername());
+        BlogUser currentUser = (BlogUser) model.getAttribute("sessionUser");
 
-        assert blogUser != null;
-        System.out.println(blogUser.getPassword());
-        System.out.println(changePassword.getCurrentPassword());
-        if (!blogUser.getPassword().equals(changePassword.getCurrentPassword())) {
+        if (!currentUser.getPassword().equals(changePassword.getCurrentPassword())) {
             bindingResult.addError(new FieldError("changePassword", "currentPassword", "Invalid current password"));
+            return "change-password";
         }
 
         // Check if the new password and confirm password match
         if (!changePassword.getNewPassword1().equals(changePassword.getNewPassword2())) {
-            bindingResult.addError(new FieldError("changePassword", "confirmPassword", "New passwords do not match"));
+            bindingResult.addError(new FieldError("changePassword", "newPassword2", "New passwords do not match"));
+            return "change-password";
         }
 
-//        if (bindingResult.hasErrors()) {
-//            return "change-password";
-//        }
 
         // Update the password
-        blogUser.setPassword(changePassword.getNewPassword1());
+        currentUser.setPassword(changePassword.getNewPassword1());
+        blogUserRepository.save(currentUser);
 
-        blogUserRepository.save(blogUser);
-
-        return "redirect:/";
+        return "redirect:/login";
     }
 }
