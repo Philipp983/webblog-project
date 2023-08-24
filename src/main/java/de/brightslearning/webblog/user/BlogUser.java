@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,13 +29,31 @@ public class BlogUser {
     @Column(name = "admin")
     private boolean admin;
 
+    @Column(name = "profile_picture_path")
+    private String profilePicturePath;
+
+//    @OneToMany(mappedBy = "blogUser", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<BlogEntry> blogEntries;
+//
+//    @OneToMany(mappedBy = "blogUser", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Comment> comments;
+
+//    @OneToMany(mappedBy = "blogUser", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<BlogEntry> blogEntries = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "blogUser", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Comment> comments = new ArrayList<>();
+
     @OneToMany(mappedBy = "blogUser")
     private List<BlogEntry> blogEntries;
 
     @OneToMany(mappedBy = "blogUser")
     private List<Comment> comments;
 
+
     public BlogUser() {
+//        this.blogEntries = new ArrayList<>();
+//        this.comments = new ArrayList<>();
     }
 
     public BlogUser(Integer id, String username, String password, boolean admin) {
@@ -57,5 +76,9 @@ public class BlogUser {
 
     public String getUsername() {
         return username;
+    }
+
+    public void setProfilePicturePath(String value) {
+        this.profilePicturePath = value;
     }
 }

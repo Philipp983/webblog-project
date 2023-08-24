@@ -25,11 +25,11 @@ public class HomeController {
 
     @PostConstruct
     public void generateDummyData() {
-        BlogUser admin = new BlogUser(1,"admin", "admin", true);
-        BlogUser admin2 = new BlogUser(2,"admin2", "admin", true);
+        BlogUser admin = new BlogUser(1,"admin", "password", true);
+//        BlogUser admin2 = new BlogUser(2,"admin2", "admin", true);
 
         blogUserRepository.save(admin);
-        blogUserRepository.save(admin2);
+//        blogUserRepository.save(admin2);
     }
 
     @Autowired

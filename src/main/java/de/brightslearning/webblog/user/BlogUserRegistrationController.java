@@ -1,5 +1,8 @@
 package de.brightslearning.webblog.user;
 
+import de.brightslearning.webblog.session.Session;
+import de.brightslearning.webblog.session.SessionRepository;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,15 +12,22 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class BlogUserRegistrationController {
 
     private final BlogUserRepository blogUserRepository;
 
+    private final SessionRepository sessionRepository;
+
     @Autowired
-    public BlogUserRegistrationController(BlogUserRepository blogUserRepository) {
+    public BlogUserRegistrationController(BlogUserRepository blogUserRepository, SessionRepository sessionRepository) {
         this.blogUserRepository = blogUserRepository;
+        this.sessionRepository = sessionRepository;
     }
 
     @GetMapping("/register")
@@ -48,16 +58,6 @@ public class BlogUserRegistrationController {
         return "redirect:/login";
     }
 
-    @PostMapping("/delete-account")
-    public String deleteAccount(Model model) {
-        BlogUser blogUser = (BlogUser) model.getAttribute("sessionUser");
-        if (blogUser != null) {
-            blogUserRepository.delete(blogUser);
-            return "redirect:/login";
-
-        }
-        return "redirect:/login";
-    }
 
 
 }

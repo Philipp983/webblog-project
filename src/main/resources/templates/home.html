@@ -27,9 +27,6 @@
     <button type="submit">Logout</button>
 </form>
 <a th:href="@{/change-password}" th:if="${sessionUser != null}">Change Password</a>
-<form th:if="${sessionUser != null}" method="post" th:action="@{/deleteAccount}">
-    <button type="submit">Delete Account</button>
-</form>
 
 <hr>
 <p>
@@ -68,22 +65,5 @@
     </li>
 </ul>
 
-
-<!--<ul>-->
-<!--    <li class="box" th:each="entry : ${blogEntries}">-->
-<!--        &lt;!&ndash;            <strong th:text="${entry.name}"></strong> - &ndash;&gt;-->
-<!--        <p><span th:text="${entry.title}"></span></p>-->
-<!--        <p><span th:text="${entry.content}"></span></p>-->
-<!--        <p><strong>Posted at:</strong> Date: <span th:text="${#temporals.format(entry.date, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(entry.date, 'HH:mm:ss')}"></span></p>-->
-
-<!--    </li>-->
-<!--</ul>-->
-
-<!--    <div th:each="message: ${blogEntries}">-->
-<!--        <a th:href="@{/profile/{username}(username=${message.user.username})}">-->
-<!--            <strong th:text="${'@' + message.user.username}"></strong>-->
-<!--        </a>-->
-<!--        <span th:text="${message.text}"></span>-->
-<!--    </div>-->
 </body>
 </html>
