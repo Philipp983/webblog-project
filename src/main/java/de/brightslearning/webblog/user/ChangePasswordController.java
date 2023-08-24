@@ -34,6 +34,9 @@ public class ChangePasswordController {
         BlogUser blogUser = (BlogUser) model.getAttribute("sessionUser");
 //        BlogUser blogUser = blogUserRepository.findByUsername(changePassword.getUsername());
 
+        assert blogUser != null;
+        System.out.println(blogUser.getPassword());
+        System.out.println(changePassword.getCurrentPassword());
         if (!blogUser.getPassword().equals(changePassword.getCurrentPassword())) {
             bindingResult.addError(new FieldError("changePassword", "currentPassword", "Invalid current password"));
         }

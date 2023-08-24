@@ -1,7 +1,9 @@
 package de.brightslearning.webblog.user;
 
+import de.brightslearning.webblog.media.LocalImageStorageService;
 import de.brightslearning.webblog.session.Session;
 import de.brightslearning.webblog.session.SessionRepository;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,12 +19,15 @@ import java.util.Optional;
 @Controller
 public class BlogUserProfileController {
 
+    private final LocalImageStorageService localImageStorageService;
+
     private final BlogUserRepository blogUserRepository;
 
     private final SessionRepository sessionRepository;
 
     @Autowired
-    public BlogUserProfileController(BlogUserRepository blogUserRepository, SessionRepository sessionRepository) {
+    public BlogUserProfileController(LocalImageStorageService localImageStorageService, BlogUserRepository blogUserRepository, SessionRepository sessionRepository) {
+        this.localImageStorageService = localImageStorageService;
         this.blogUserRepository = blogUserRepository;
         this.sessionRepository = sessionRepository;
     }
@@ -30,6 +36,28 @@ public class BlogUserProfileController {
     public String getProfile(Model model) {
         // Retrieve user details and set to model attributes
         return "profile";
+    }
+
+    @PostMapping("/uploadProfilePicture")
+    public String uploadProfilePicture(@RequestParam("profilePicture") MultipartFile profilePicture, Model model) {
+        // First, store the image
+        String storedFileName = localImageStorageService.store(profilePicture);
+        System.out.println(storedFileName);
+
+        // Now, you might want to associate this filename with the user in your database.
+        // Assuming 'sessionUser' is the currently logged-in user and you have a 'setProfilePicture'
+        // method on your user entity to set the filename of the profile picture.
+
+        BlogUser sessionUser = (BlogUser) model.getAttribute("sessionUser");
+        if (sessionUser != null) {
+            sessionUser.setProfilePicturePath(storedFileName);
+            System.out.println(storedFileName);
+            // Save the user back to the database
+            // Assuming you have 'blogUserRepository' bean initialized and injected
+            blogUserRepository.save(sessionUser);
+        }
+
+        return "redirect:/profile";
     }
 
     @Transactional

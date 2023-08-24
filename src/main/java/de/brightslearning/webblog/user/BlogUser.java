@@ -77,4 +77,8 @@ public class BlogUser {
     public String getUsername() {
         return username;
     }
+
+    public void setProfilePicturePath(String value) {
+        this.profilePicturePath = value;
+    }
 }
