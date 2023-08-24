@@ -2,19 +2,21 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-
     <title>Login</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
-<body>
+
+<body class="ml-6 mr-6">
 <header>
     <nav class="navbar" role="navigation" aria-label="main navigation">
+
         <div class="navbar-brand">
             <a class="navbar-item" href="#">
                 <!-- Your site logo or name here -->
             </a>
 
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+               data-target="navbarBasicExample">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
@@ -32,12 +34,14 @@
                     <div class="buttons">
                         <th:block th:if="${sessionUser == null}">
                             <a class="button is-primary" th:href="@{/login}">Login</a>
-                            <a class="button is-light" th:href="@{/register}">Sign up</a>
+                            <a class="button is-primary is-light" th:href="@{/register}">Sign up</a>
                         </th:block>
-
-                        <form th:if="${sessionUser != null}" method="post" th:action="@{/logout}">
-                            <button class="button is-danger" type="submit">Logout</button>
-                        </form>
+                        <th:block th:if="${sessionUser != null}">
+                            <a class="button is-link" th:href="@{/profile}">Profile</a>
+                            <form method="post" th:action="@{/logout}">
+                                <button class="button is-danger" type="submit">Logout</button>
+                            </form>
+                        </th:block>
                     </div>
                 </div>
             </div>

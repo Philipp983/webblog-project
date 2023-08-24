@@ -4,22 +4,73 @@
     <meta charset="UTF-8">
     <title th:if="${blogEntry.id == null}">Post a message</title>
     <title th:if="${blogEntry.id != null}">Edit a message</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body>
+<body class="ml-6 mr-6">
+<header>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
 
-<h1 th:if="${blogEntry.id == null}">Post a message</h1>
-<h1 th:if="${blogEntry.id != null}">Edit a message</h1>
-<form th:action="${blogEntry.id == null} ? @{/message} : @{/edit/{id}(id=${blogEntry.id})}" th:object="${blogEntry}" method="post">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <!-- Your site logo or name here -->
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+               data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/">Home</a>
+                <!-- Add more navigation links as needed -->
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <th:block th:if="${sessionUser == null}">
+                            <a class="button is-primary" th:href="@{/login}">Login</a>
+                            <a class="button is-primary is-light" th:href="@{/register}">Sign up</a>
+                        </th:block>
+                        <a class="button is-link" th:href="@{/profile}">Profile</a>
+                        <form th:if="${sessionUser != null}" method="post" th:action="@{/logout}">
+                            <button class="button is-danger" type="submit">Logout</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section class="section">
+    <div class="container">
+
+<h1 class="title" th:if="${blogEntry.id == null}">Post a message</h1>
+<h1 class="title" th:if="${blogEntry.id != null}">Edit a message</h1>
+
+<form class="box" th:action="${blogEntry.id == null} ? @{/message} : @{/edit/{id}(id=${blogEntry.id})}" th:object="${blogEntry}" method="post">
+    <div class="field">
     <input type="hidden" th:field="*{id}"/>
-    <label>Title:</label>
-    <input type="text" th:field="*{title}" />
-    <br>
-    <label>Content:</label>
-    <textarea th:field="*{content}"></textarea>
+    <label class="label">Title:</label>
+    <input class="input" type="text" th:field="*{title}" />
+    </div>
+    <div class="field">
+    <label class="label">Content:</label>
+    <textarea class="textarea" placeholder="Your commment" rows="3" th:field="*{content}"></textarea>
     <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
-    <br>
-    <button type="submit">Submit</button>
+    </div>
+    <button class="button is-primary" type="submit">Submit</button>
 </form>
+</div>
+</div>
+</section>
 </body>
 </html>
 
