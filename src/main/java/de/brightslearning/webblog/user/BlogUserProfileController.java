@@ -6,6 +6,7 @@ import de.brightslearning.webblog.session.SessionRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,9 @@ import java.util.Optional;
 @Controller
 public class BlogUserProfileController {
 
+
+    private ResourceLoader resourceLoader;
+
     private final LocalImageStorageService localImageStorageService;
 
     private final BlogUserRepository blogUserRepository;
@@ -26,7 +30,8 @@ public class BlogUserProfileController {
     private final SessionRepository sessionRepository;
 
     @Autowired
-    public BlogUserProfileController(LocalImageStorageService localImageStorageService, BlogUserRepository blogUserRepository, SessionRepository sessionRepository) {
+    public BlogUserProfileController(ResourceLoader resourceLoader, LocalImageStorageService localImageStorageService, BlogUserRepository blogUserRepository, SessionRepository sessionRepository) {
+        this.resourceLoader = resourceLoader;
         this.localImageStorageService = localImageStorageService;
         this.blogUserRepository = blogUserRepository;
         this.sessionRepository = sessionRepository;
