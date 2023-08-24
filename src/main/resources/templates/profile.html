@@ -57,18 +57,39 @@
 
         <img style="width: 200px; height: 200px; border-radius: 100px;" th:src="@{'images/' + ${sessionUser.profilePicturePath}}"/>
     </div>
-    <form class="box" th:if="${sessionUser != null}" method="post" enctype="multipart/form-data" th:action="@{/uploadProfilePicture}">
-        <p>Upload a profile picture:</p><br>
-        <input type="file" name="profilePicture" accept="image/png, image/jpeg"><br><br>
 
-        <button class="button is-primary" type="submit">Upload</button>
-    </form>
+    <div class="box" th:if="${sessionUser != null}">
+
+        <p>Upload a profile picture:</p><br>
+        <form method="post" enctype="multipart/form-data" th:action="@{/uploadProfilePicture}">
+            <input type="file" name="profilePicture" accept="image/png, image/jpeg"><br><br>
+            <button class="button is-primary" type="submit">Upload</button>
+            <br>
+        </form>
+
+        <!-- This will only show up if the user has a profile picture -->
+        <form method="post" th:action="@{/deleteProfilePicture}" th:if="${sessionUser.profilePicturePath != null}">
+            <button class="button is-danger" type="submit">Delete Picture</button>
+        </form>
+
+    </div>
+
+
+    <!--    <form class="box" th:if="${sessionUser != null}" method="post" enctype="multipart/form-data" th:action="@{/uploadProfilePicture}">-->
+<!--        <p>Upload a profile picture:</p><br>-->
+<!--        <input type="file" name="profilePicture" accept="image/png, image/jpeg"><br><br>-->
+
+<!--        <button class="button is-primary" type="submit">Upload</button>-->
+<!--    </form>-->
+<!--    &lt;!&ndash; Delete Form &ndash;&gt;-->
+<!--    <form class="box" th:if="${sessionUser != null && sessionUser.profilePicturePath != null}" method="post" th:action="@{/deleteProfilePicture}">-->
+<!--        <button class="button is-danger ml-2" type="submit" >Delete Picture</button>-->
+<!--    </form>-->
+
+
 
     <!-- Admin Panel to delete other users -->
     <section class="box" th:if="${sessionUser != null and sessionUser.admin}">
-
-
-
 
     <div class="field" th:if="${sessionUser != null and sessionUser.admin}">
 <!--        <h2>Admin Panel</h2>-->
@@ -105,27 +126,11 @@
 
     </section>
 
-<!--This is a working image src -->
-<!--<img src="/images/NAMEOFIMAGE.jpg"/>-->
-
-
-<!--<img src="/images/24ecb033-0c47-4b09-87bb-0ad92d670b26.jpg"/>-->
-
-
-
-
     <form class="box" th:if="${sessionUser != null}" method="post" th:action="@{/deleteAccount}">
         <button class="button is-danger" type="submit">Delete Your Account</button>
     </form>
 
-<!--<div th:each="message: ${user.messages}">-->
-<!--    <strong th:text="${#dates.format(message.postedAt)}"></strong>-->
-<!--    <span th:text="${message.text}"></span>-->
-<!--<div>-->
-<!--    <form th:if="${user == sessionUser}" method="post" th:action="@{/messageDelete(messageId=${message.id})}">-->
-<!--        <button type="submit">Delete</button>-->
-<!--    </form>-->
-<!--</div>-->
+
 </section>
 </body>
 

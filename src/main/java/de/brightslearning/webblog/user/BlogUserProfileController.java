@@ -45,6 +45,11 @@ public class BlogUserProfileController {
 
     @PostMapping("/uploadProfilePicture")
     public String uploadProfilePicture(@RequestParam("profilePicture") MultipartFile profilePicture, Model model) {
+
+        if (profilePicture.isEmpty()) {
+            return "redirect:/profile";
+        }
+
         // First, store the image
         String storedFileName = localImageStorageService.store(profilePicture);
         System.out.println(storedFileName);
@@ -62,6 +67,18 @@ public class BlogUserProfileController {
             blogUserRepository.save(sessionUser);
         }
 
+        return "redirect:/profile";
+    }
+
+    @PostMapping("/deleteProfilePicture")
+    public String deleteProfilePicture(Model model) {
+        BlogUser sessionUser = (BlogUser) model.getAttribute("sessionUser");
+        if (sessionUser != null) {
+            // Setting profile picture path to null
+            sessionUser.setProfilePicturePath(null);
+            // Save the user back to the database
+            blogUserRepository.save(sessionUser);
+        }
         return "redirect:/profile";
     }
 
@@ -160,8 +177,4 @@ public class BlogUserProfileController {
 
         return "redirect:/profile"; // or return to a specific page with an error message
     }
-
-
-
-
 }

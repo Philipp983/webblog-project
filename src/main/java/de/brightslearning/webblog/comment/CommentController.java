@@ -67,7 +67,7 @@ public class CommentController {
 
         commentRepository.save(anotherComment); // Save the comment to the database
 
-        return "redirect:/comment/" + id; // Redirect back to the comment page
+        return "redirect:/comment/" + id + "#comment-" + anotherComment.getId(); // Redirect back to the comment page
     }
 
     @GetMapping("/editComment/{entryId}/{commentId}")
@@ -101,7 +101,7 @@ public class CommentController {
 
         commentRepository.save(originalComment); // Assuming you have a save method in your repository.
 
-        return "redirect:/comment/" + entryId; // Redirect back to the comment page to display the updated comment.
+        return "redirect:/comment/" + entryId + "#comment-" + commentId; // Redirect back to the comment page to display the updated comment.
     }
 
     @GetMapping("/deleteComment/{entryId}/{commentId}")
@@ -125,7 +125,7 @@ public class CommentController {
 
         System.out.println(entryId);
         System.out.println(commentId);
-        return "redirect:/comment/" + entryId;
+        return "redirect:/comment/" + entryId + "#comment-" + commentId;
     }
 
     @GetMapping("/restoreDeleted/{entryId}/{commentId}")
@@ -140,6 +140,6 @@ public class CommentController {
 
         System.out.println(entryId);
         System.out.println(commentId);
-        return "redirect:/comment/" + entryId;
+        return "redirect:/comment/" + entryId + "#comment-" + commentId;
     }
 }

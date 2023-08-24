@@ -37,7 +37,7 @@
 
                         <th:block th:if="${sessionUser != null && sessionUser.profilePicturePath != null}">
 
-                            <a th:href="@{/profile}"><img style="width: 30px; height: 30px; border-radius: 30px; margin-right: 12px;" th:src="@{'images/' + ${sessionUser.profilePicturePath}}"/></a>
+                            <a th:href="@{/profile}"><img style="width: 30px; height: 30px; border-radius: 30px; margin-right: 12px;" th:src="@{'/images/' + ${sessionUser.profilePicturePath}}"/></a>
                             <form method="post" th:action="@{/logout}">
                                 <button class="button is-danger" type="submit">Logout</button>
                             </form>
@@ -90,7 +90,7 @@
 <!-- List previous comments -->
 <h3 class="subtitle is-4" th:if="${prevComment != null}">Previous Comments:</h3>
 <ul th:if="${previousComments != null && !previousComments.isEmpty()}">
-    <li class="box" th:each="prevComment : ${previousComments}">
+    <li class="box" th:each="prevComment : ${previousComments}" th:id="${'comment-' + prevComment.id}">
 
 <!--         Comment creator -->
         <p class="is-size-6"><strong>Written by:</strong>
