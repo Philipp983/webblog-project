@@ -35,7 +35,7 @@
                             <a class="button is-light" th:href="@{/register}">Sign up</a>
                         </th:block>
 
-                        <form th:if="${sessionUser != null}" method="post" action="@{/logout}">
+                        <form th:if="${sessionUser != null}" method="post" th:action="@{/logout}">
                             <button class="button is-danger" type="submit">Logout</button>
                         </form>
                     </div>

@@ -29,6 +29,9 @@ public class BlogUser {
     @Column(name = "admin")
     private boolean admin;
 
+    @Column(name = "profile_picture_path")
+    private String profilePicturePath;
+
 //    @OneToMany(mappedBy = "blogUser", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<BlogEntry> blogEntries;
 //

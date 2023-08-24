@@ -30,13 +30,6 @@ public class BlogUserRegistrationController {
         this.sessionRepository = sessionRepository;
     }
 
-
-
-
-    @GetMapping("/profile")
-    public String profilePage(){
-        return "profile";
-    }
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("registration", new RegistrationDTO("", "", ""));
@@ -65,53 +58,6 @@ public class BlogUserRegistrationController {
         return "redirect:/login";
     }
 
-    @Transactional
-    @PostMapping("/deleteAccount")
-    public String deleteAccount(Model model) {
-        BlogUser blogUser = (BlogUser) model.getAttribute("sessionUser");
-
-
-        if (blogUser != null && blogUser.getId() != 1) {
-            List<Session> sessionsForUser = sessionRepository.findByBlogUser(blogUser);
-            for(Session s : sessionsForUser) {
-                sessionRepository.delete(s);
-            }
-            blogUserRepository.delete(blogUser);
-//            return "redirect:/logout";
-
-        } else if (blogUser != null && blogUser.getId() == 1) {
-            return "redirect:/profile";
-        }
-        return "redirect:/login";
-    }
-
-    @PostMapping("/deleteUserByUsername")
-    @Transactional
-    public String deleteUserByUsername(@RequestParam String userToDelete, Model model) {
-        Optional<BlogUser> optionalUserToDelete = Optional.ofNullable(blogUserRepository.findByUsername(userToDelete));
-
-        if (optionalUserToDelete.isPresent() && optionalUserToDelete.get().getId() != 1) {
-            BlogUser user = optionalUserToDelete.get();
-
-            // Delete all sessions for this user
-            List<Session> sessionsForUser = sessionRepository.findByBlogUser(user);
-            for(Session s : sessionsForUser) {
-                sessionRepository.delete(s);
-            }
-
-            // Delete the user
-            blogUserRepository.delete(user);
-
-            return "redirect:/profile";  // or wherever you want to redirect after deletion
-        } else {
-            System.out.println("cant delete admin numero uno");
-        }
-
-        // Maybe add an error message if user wasn't found
-        model.addAttribute("errorMsg", "User not found!");
-
-        return "redirect:/profile"; // or return to a specific page with an error message
-    }
 
 
 }
