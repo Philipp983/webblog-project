@@ -1,35 +1,89 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 
     <title>Sign up</title>
 </head>
 
-<body>
+<body class="ml-6 mr-6">
 <header>
-    <nav>
-        <th:block th:if="${sessionUser == null}">
-            <a th:href="@{/login}">Login</a>
-            <a th:href="@{/register}">Sign up</a>
-        </th:block>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
 
-        <form th:if="${sessionUser != null}" method="post" th:action="@{/logout}">
-            <button type="submit">Logout</button>
-        </form>
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <!-- Your site logo or name here -->
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+               data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/">Home</a>
+                <!-- Add more navigation links as needed -->
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <th:block th:if="${sessionUser == null}">
+                            <a class="button is-primary" th:href="@{/login}">Login</a>
+                            <a class="button is-primary is-light" th:href="@{/register}">Sign up</a>
+                        </th:block>
+                        <th:block th:if="${sessionUser != null}">
+                            <a class="button is-link" th:href="@{/profile}">Profile</a>
+                            <form method="post" th:action="@{/logout}">
+                                <button class="button is-danger" type="submit">Logout</button>
+                            </form>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
     </nav>
-    <hr>
 </header>
-<h1>Sign up</h1>
-<form th:action="@{/register}" th:object="${registration}" method="post">
-    Username: <input type="text" th:field="*{username}"><br/>
-    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
-    Password: <input type="password" th:field="*{password1}"><br/>
-    <p th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}"></p>
-    Password repeat: <input type="password" th:field="*{password2}"><br/>
-    <p th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}"></p>
-    <button type="submit">Register</button>
-</form>
+<section class="section">
+    <div class="container">
+        <h1 class="title">Sign up</h1>
+        <form class="box" th:action="@{/register}" th:object="${registration}" method="post">
+            <div class="field">
+                <label class="label">Username</label>
+                <div class="control">
+                    <input class="input" type="text" th:field="*{username}" placeholder="Username">
+                </div>
+                <p class="help is-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+            </div>
+
+            <div class="field">
+                <label class="label">Password</label>
+                <div class="control">
+                    <input class="input" type="password" th:field="*{password1}" placeholder="Password">
+                </div>
+                <p class="help is-danger" th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}"></p>
+            </div>
+
+            <div class="field">
+                <label class="label">Password repeat</label>
+                <div class="control">
+                    <input class="input" type="password" th:field="*{password2}" placeholder="Password repeat">
+                </div>
+                <p class="help is-danger" th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}"></p>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <button class="button is-primary" type="submit">Register</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
 </body>
 </html>
-
