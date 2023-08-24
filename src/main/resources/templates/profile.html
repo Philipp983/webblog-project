@@ -1,76 +1,123 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-
     <title>Zwitscher</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
+
 <body class="ml-6 mr-6">
 
 <header>
-    <nav>
-        <th:block th:if="${sessionUser == null}">
-            <a th:href="@{/login}">Login</a>
-            <a th:href="@{/register}">Sign up</a>
-        </th:block>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
 
-        <form th:if="${sessionUser != null}" method="post" th:action="@{/logout}">
-            <button type="submit">Logout</button>
-        </form>
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <!-- Your site logo or name here -->
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+               data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/">Home</a>
+                <!-- Add more navigation links as needed -->
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <th:block th:if="${sessionUser == null}">
+                            <a class="button is-primary" th:href="@{/login}">Login</a>
+                            <a class="button is-primary is-light" th:href="@{/register}">Sign up</a>
+                        </th:block>
+                        <th:block th:if="${sessionUser != null}">
+<!--                            <a class="button is-link" th:href="@{/profile}">Profile</a>-->
+                            <form method="post" th:action="@{/logout}">
+                                <button class="button is-danger" type="submit">Logout</button>
+                            </form>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
     </nav>
     <hr>
-    <form th:if="${sessionUser != null}" method="post" th:action="@{/deleteAccount}">
-        <button type="submit">Delete Your Account</button>
-    </form>
-    <!-- Admin Panel to delete other users -->
-    <div th:if="${sessionUser != null and sessionUser.admin}">
-        <h2>Admin Panel</h2>
-        <form method="post" th:action="@{/deleteUserByUsername}">
-            <label for="userToDelete">Username to delete:</label>
-            <input type="text" id="userToDelete" name="userToDelete" th:value="${userToDelete}" placeholder="Enter username...">
-            <button type="submit">Delete User By Username</button>
-        </form>
-    </div>
+</header>
 
-    <!-- Admin Panel to promote a user to admin -->
-    <div th:if="${sessionUser != null and sessionUser.admin}">
+<section>
+    <h1 class="subtitle is-3" th:text="${'Welcome, ' + sessionUser.username + '!'}"></h1>
+    <!-- Image box only visible if sessionUser.profilePicturePath is not null -->
+    <div th:if="${sessionUser.profilePicturePath != null}">
+
+        <!--    <img th:src="@{'../static/images/' + ${sessionUser.profilePicturePath}}" />-->
+        <img th:src="@{'images/' + ${sessionUser.profilePicturePath}}" />
+    </div>
+    <form class="box" th:if="${sessionUser != null}" method="post" enctype="multipart/form-data" th:action="@{/uploadProfilePicture}">
+        <p>Upload a profile picture:</p><br>
+        <input type="file" name="profilePicture" accept="image/png, image/jpeg"><br><br>
+
+        <button class="button is-primary" type="submit">Upload</button>
+    </form>
+
+    <!-- Admin Panel to delete other users -->
+    <section class="box" th:if="${sessionUser != null and sessionUser.admin}">
+
+
+
+
+    <div class="field" th:if="${sessionUser != null and sessionUser.admin}">
 <!--        <h2>Admin Panel</h2>-->
+        <h2 class="subtitle is-3">Admin Panel</h2>
         <form method="post" th:action="@{/promoteUserByUsernameToAdmin}">
-            <label for="promoteUser">Username to promote:</label>
-            <input type="text" id="promoteUser" name="promoteUser" th:value="${promoteUser}" placeholder="Enter username...">
-            <button type="submit">Promote User By Username to Admin</button>
-        </form>
+            <label class="label" for="promoteUser">User to promote:</label>
+            <input class="input" type="text" id="promoteUser" name="promoteUser" th:value="${promoteUser}" placeholder="Enter username...">
+            <br><br>
+            <button class="button is-primary" type="submit">Promote User</button>
+        </form><br>
     </div>
     <!-- Admin Panel to demote a user to admin -->
-    <div th:if="${sessionUser != null and sessionUser.admin}">
+    <div class="field" th:if="${sessionUser != null and sessionUser.admin}">
         <!--        <h2>Admin Panel</h2>-->
         <form method="post" th:action="@{/demoteUserByUsernameToAdmin}">
-            <label for="demoteUser">Username to promote:</label>
-            <input type="text" id="demoteUser" name="demoteUser" th:value="${demoteUser}" placeholder="Enter username...">
-            <button type="submit">Demote Admin By Username to Blogger</button>
-        </form>
+            <label class="label" for="demoteUser">User to demote:</label>
+            <input class="input" type="text" id="demoteUser" name="demoteUser" th:value="${demoteUser}" placeholder="Enter username...">
+            <br><br>
+            <button class="button is-primary is-light" type="submit">Demote User</button>
+        </form><br>
     </div>
-</header>
-<h1 th:text="${sessionUser.username}"></h1>
-<!-- Image box only visible if sessionUser.profilePicturePath is not null -->
-<div th:if="${sessionUser.profilePicturePath != null}">
-<!--    <img th:src="@{'../static/images/' + ${sessionUser.profilePicturePath}}" />-->
-    <img th:src="@{'images/' + ${sessionUser.profilePicturePath}}" />
-</div>
+        <!-- Admin Panel to promote a user to admin -->
+        <div class="field" th:if="${sessionUser != null and sessionUser.admin}">
+            <form method="post" th:action="@{/deleteUserByUsername}">
+                <label class="label" for="userToDelete">User to delete:</label>
+                <input class="input" type="text" id="userToDelete" name="userToDelete" th:value="${userToDelete}" placeholder="Enter username...">
+                <br><br>
+                <button class="button is-danger" type="submit">Delete User</button>
+            </form><br>
+        </div>
+    </section>
+    <section class="box">
+        <a class="button is-link" th:href="@{/change-password}">Change your password</a>
+
+    </section>
 
 <!--This is a working image src -->
 <!--<img src="/images/NAMEOFIMAGE.jpg"/>-->
 
 
 <!--<img src="/images/24ecb033-0c47-4b09-87bb-0ad92d670b26.jpg"/>-->
-<form th:if="${sessionUser != null}" method="post" enctype="multipart/form-data" th:action="@{/uploadProfilePicture}">
-    <input type="file" name="profilePicture" accept="image/png, image/jpeg">
-    <button type="submit">Upload</button>
-</form>
 
 
-<hr>
 
+
+    <form class="box" th:if="${sessionUser != null}" method="post" th:action="@{/deleteAccount}">
+        <button class="button is-danger" type="submit">Delete Your Account</button>
+    </form>
 
 <!--<div th:each="message: ${user.messages}">-->
 <!--    <strong th:text="${#dates.format(message.postedAt)}"></strong>-->
@@ -80,6 +127,7 @@
 <!--        <button type="submit">Delete</button>-->
 <!--    </form>-->
 <!--</div>-->
+</section>
 </body>
 
 </html>
