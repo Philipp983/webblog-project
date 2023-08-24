@@ -34,10 +34,12 @@
                             <a class="button is-primary" th:href="@{/login}">Login</a>
                             <a class="button is-primary is-light" th:href="@{/register}">Sign up</a>
                         </th:block>
-
-                        <form th:if="${sessionUser != null}" method="post" action="@{/logout}">
-                            <button class="button is-danger" type="submit">Logout</button>
-                        </form>
+                        <th:block th:if="${sessionUser != null}">
+                            <a class="button is-link" th:href="@{/profile}">Profile</a>
+                            <form method="post" th:action="@{/logout}">
+                                <button class="button is-danger" type="submit">Logout</button>
+                            </form>
+                        </th:block>
                     </div>
                 </div>
             </div>
