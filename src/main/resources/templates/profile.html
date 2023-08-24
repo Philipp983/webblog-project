@@ -53,6 +53,7 @@
 <h1 th:text="${sessionUser.username}"></h1>
 <!-- Image box only visible if sessionUser.profilePicturePath is not null -->
 <div th:if="${sessionUser.profilePicturePath != null}">
+<!--    <img th:src="@{'../static/images/' + ${sessionUser.profilePicturePath}}" />-->
     <img th:src="@{'images/' + ${sessionUser.profilePicturePath}}" />
 </div>
 
@@ -60,9 +61,7 @@
 <!--<img src="/images/NAMEOFIMAGE.jpg"/>-->
 
 
-<img src="images/e0dc84e7-1dde-49e4-a74f-efd8bad3be3a.png"/>
-<img src="images/13381810-2ab0-407c-8f03-7d7818652779.jpg"/>
-<img src="images/5d134b4f-5bbb-43f7-993b-23cb51cb75e5.jpg"/>
+<!--<img src="/images/24ecb033-0c47-4b09-87bb-0ad92d670b26.jpg"/>-->
 <form th:if="${sessionUser != null}" method="post" enctype="multipart/form-data" th:action="@{/uploadProfilePicture}">
     <input type="file" name="profilePicture" accept="image/png, image/jpeg">
     <button type="submit">Upload</button>
