@@ -34,7 +34,17 @@
                             <a class="button is-primary" th:href="@{/login}">Login</a>
                             <a class="button is-primary is-light" th:href="@{/register}">Sign up</a>
                         </th:block>
-                        <th:block th:if="${sessionUser != null}">
+
+                        <th:block th:if="${sessionUser != null && sessionUser.profilePicturePath != null}">
+
+                            <a th:href="@{/profile}"><img style="width: 30px; height: 30px; border-radius: 30px; margin-right: 12px;" th:src="@{'images/' + ${sessionUser.profilePicturePath}}"/></a>
+                            <form method="post" th:action="@{/logout}">
+                                <button class="button is-danger" type="submit">Logout</button>
+                            </form>
+                        </th:block>
+
+
+                        <th:block th:if="${sessionUser != null && sessionUser.profilePicturePath == null}">
                             <a class="button is-link" th:href="@{/profile}">Profile</a>
                             <form method="post" th:action="@{/logout}">
                                 <button class="button is-danger" type="submit">Logout</button>

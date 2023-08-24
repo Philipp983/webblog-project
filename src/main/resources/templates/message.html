@@ -16,8 +16,7 @@
                 <!-- Your site logo or name here -->
             </a>
 
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-               data-target="navbarBasicExample">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
@@ -37,11 +36,22 @@
                             <a class="button is-primary" th:href="@{/login}">Login</a>
                             <a class="button is-primary is-light" th:href="@{/register}">Sign up</a>
                         </th:block>
-                        <a class="button is-link" th:href="@{/profile}">Profile</a>
-                        <form th:if="${sessionUser != null}" method="post" th:action="@{/logout}">
-                            <button class="button is-danger" type="submit">Logout</button>
-                        </form>
 
+                        <th:block th:if="${sessionUser != null && sessionUser.profilePicturePath != null}">
+
+                            <a th:href="@{/profile}"><img style="width: 30px; height: 30px; border-radius: 30px; margin-right: 12px;" th:src="@{'images/' + ${sessionUser.profilePicturePath}}"/></a>
+                            <form method="post" th:action="@{/logout}">
+                                <button class="button is-danger" type="submit">Logout</button>
+                            </form>
+                        </th:block>
+
+
+                        <th:block th:if="${sessionUser != null && sessionUser.profilePicturePath == null}">
+                            <a class="button is-link" th:href="@{/profile}">Profile</a>
+                            <form method="post" th:action="@{/logout}">
+                                <button class="button is-danger" type="submit">Logout</button>
+                            </form>
+                        </th:block>
                     </div>
                 </div>
             </div>
