@@ -54,6 +54,7 @@ public class BlogEntryController {
             // Handle the case when the entry is not found
             return "redirect:/";
         }
+        entry.setContent(entry.getContent().replace("<br>", ""));
         model.addAttribute("blogEntry", entry); // Add the existing blog entry to the model
         return "message"; // Name of your HTML file for modifying entries (e.g., modify.html)
     }

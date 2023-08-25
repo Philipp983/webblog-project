@@ -33,7 +33,8 @@ public class CommentController {
             // Handle the case when the entry is not found, e.g., redirect to an error page
             return "redirect:/";
         }
-
+//        entry.setContent(entry.getContent().replace("<br>", ""));
+        entry.setContent(entry.getContent().replace("\n", "<br>"));
         model.addAttribute("blogEntry", entry);
 //        model.addAttribute("comment", new Comment()); // Add an empty comment to the model, but forgot why so no free models
         model.addAttribute("previousComments", entry.getComments()); // Adding list of previous comments to the model

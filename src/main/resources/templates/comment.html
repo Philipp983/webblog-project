@@ -61,7 +61,7 @@
 <section class="box">
     <p class="is-size-6">Author: <span th:text="${blogEntry.blogUser.username}"></span></p>
     <h2 class="is-size-3"><strong> <span th:text="${blogEntry.title}"></span></strong></h2>
-    <p class="is-size-4"> <span th:text="${blogEntry.content}"></span></p>
+    <p class="is-size-4"> <span th:utext="${blogEntry.content}"></span></p>
     <p class="is-size-6">Posted at: Date: <span th:text="${#temporals.format(blogEntry.date, 'yyyy-MM-dd')}"></span> Time: <span th:text="${#temporals.format(blogEntry.date, 'HH:mm:ss')}"></span></p>
     <br>
 
