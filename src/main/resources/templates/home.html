@@ -89,15 +89,21 @@
                     th:text="${#temporals.format(entry.lastEdited, 'yyyy-MM-dd')}"></span> Time: <span
                     th:text="${#temporals.format(entry.lastEdited, 'HH:mm:ss')}"></span></p>
 
+
+                    <!--            Admin and User Buttons-->
+                    <!--            Write a Comment-->
             <div class="field is-grouped">
                 <th:block th:if="${sessionUser != null}">
             <p class="button is-primary mr-6"><a th:href="@{/comment/{id}(id=${entry.id})}">Write a Comment</a></p>
             </th:block>
                 <th:block th:if="${sessionUser != null && sessionUser.isAdmin() == true}">
-            <p class="button is-primary is-light">
-                <a th:href="@{/delete/{id}(id=${entry.id})}"
-                   th:if="${sessionUser != null && sessionUser.isAdmin() == true}">Delete a Blog Entry</a>
-            </p>
+
+                    <!-- Delete Blog Entry -->
+                    <form th:action="@{/delete/{id}(id=${entry.id})}" method="post">
+                        <button type="submit" class="button is-primary is-light">Delete a Blog Entry</button>
+                    </form>
+                </th:block>
+                    <!--Edit a Blog Entry-->
             <p class="button is-primary is-light ml-2">
                 <a th:href="@{/edit/{id}(id=${entry.id})}"
                    th:if="${sessionUser != null && sessionUser.isAdmin() == true}">Edit

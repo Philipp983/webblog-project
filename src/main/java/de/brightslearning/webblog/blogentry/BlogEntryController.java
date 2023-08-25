@@ -75,7 +75,7 @@ public class BlogEntryController {
         return "redirect:/"; // Redirect to the homepage or wherever you list the blog entries
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteEntry(@PathVariable Integer id) {
         // Optional validation to ensure only admin can delete
         BlogEntry existingEntry = blogEntryRepository.findById(id).orElse(null);
