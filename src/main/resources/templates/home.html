@@ -80,7 +80,10 @@
             </p>
 
             <!-- Content -->
-            <p class="is-size-4"> <!--<strong>Content:</strong>--> <span th:text="${entry.content}"></span></p>
+            <p class="is-size-4">
+                <!--<strong>Content:</strong>-->
+                <span th:utext="${entry.content}"></span>
+            </p>
 
             <!-- Date and Time -->
             <p class="is-size-6">Posted at: Date: <span th:text="${#temporals.format(entry.date, 'yyyy-MM-dd')}"></span>

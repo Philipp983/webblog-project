@@ -3,6 +3,7 @@ package de.brightslearning.webblog.blogentry;
 import de.brightslearning.webblog.comment.Comment;
 import de.brightslearning.webblog.user.BlogUser;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,6 +26,7 @@ public class BlogEntry {
     @Column(name = "title")
     private String title;
 
+    @Size(max = 5000)
     @Column(name = "content")
     private String content;
 
