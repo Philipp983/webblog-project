@@ -51,7 +51,7 @@ public class BlogEntryController {
         BlogEntry entry = blogEntryRepository.findById(id).orElse(null);
         if (entry == null) {
             // Handle the case when the entry is not found
-            return "error";
+            return "redirect:/";
         }
         model.addAttribute("blogEntry", entry); // Add the existing blog entry to the model
         return "message"; // Name of your HTML file for modifying entries (e.g., modify.html)
@@ -62,7 +62,7 @@ public class BlogEntryController {
         BlogEntry existingEntry = blogEntryRepository.findById(id).orElse(null);
         if (existingEntry == null) {
             // Handle the case when the entry is not found
-            return "error";
+            return "redirect:/";
         }
         existingEntry.setLastEdited(LocalDateTime.now());
         // Update the fields you want to change
@@ -78,6 +78,11 @@ public class BlogEntryController {
     @GetMapping("/delete/{id}")
     public String deleteEntry(@PathVariable Integer id) {
         // Optional validation to ensure only admin can delete
+        BlogEntry existingEntry = blogEntryRepository.findById(id).orElse(null);
+        if (existingEntry == null) {
+            // Handle the case when the entry is not found
+            return "redirect:/";
+        }
         blogEntryRepository.deleteById(id);
         return "redirect:/"; // Redirect to the homepage or wherever you list the blog entries
     }

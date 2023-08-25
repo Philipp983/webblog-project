@@ -63,17 +63,6 @@
 
 <h1 class="subtitle is-3" th:text="${'Welcome, Stranger!'}" th:if="${sessionUser == null}"></h1>
 <h1 class="subtitle is-3" th:text="${'Welcome, ' + sessionUser.username + '!'}" th:if="${sessionUser != null}"></h1>
-<!--<a th:href="@{/login}" th:if="${sessionUser == null}">Login</a>-->
-<!--<a th:href="@{/register}">Sign up</a>-->
-
-<!--<form th:if="${sessionUser != null}" method="post" th:action="@{/logout}">-->
-<!--    <button type="submit">Logout</button>-->
-<!--</form>-->
-<!--<a th:href="@{/change-password}" th:if="${sessionUser != null}">Change Password</a>-->
-<!--<form th:if="${sessionUser != null}" method="post" th:action="@{/deleteAccount}">-->
-<!--    <button type="submit">Delete Account</button>-->
-<!--</form>-->
-
 
 <p>
     <a class="button is-primary" th:href="@{/message}" th:if="${sessionUser != null && sessionUser.isAdmin() == true}">Create
