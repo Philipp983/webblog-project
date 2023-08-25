@@ -58,9 +58,9 @@
             </div>
         </div>
     </nav>
-    <hr>
-</header>
 
+</header>
+<section class="mt-6">
 <h1 class="subtitle is-3" th:text="${'Welcome, Stranger!'}" th:if="${sessionUser == null}"></h1>
 <h1 class="subtitle is-3" th:text="${'Welcome, ' + sessionUser.username + '!'}" th:if="${sessionUser != null}"></h1>
 
@@ -68,7 +68,7 @@
     <a class="button is-primary" th:href="@{/message}" th:if="${sessionUser != null && sessionUser.isAdmin() == true}">Create
         new Blog Entry</a>
 </p>
-
+</section>
 <section class="mt-6">
     <h2 class="subtitle is-3">Latest Blog Entries</h2>
     <ul>
@@ -102,7 +102,7 @@
                     <form th:action="@{/delete/{id}(id=${entry.id})}" method="post">
                         <button type="submit" class="button is-primary is-light">Delete a Blog Entry</button>
                     </form>
-                </th:block>
+
                     <!--Edit a Blog Entry-->
             <p class="button is-primary is-light ml-2">
                 <a th:href="@{/edit/{id}(id=${entry.id})}"

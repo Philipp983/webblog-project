@@ -60,7 +60,7 @@
 </header>
 
 <section class="section">
-    <div class="container">
+
 
 <h1 class="title" th:if="${blogEntry.id == null}">Post a message</h1>
 <h1 class="title" th:if="${blogEntry.id != null}">Edit a message</h1>
@@ -73,13 +73,12 @@
     </div>
     <div class="field">
     <label class="label">Content:</label>
-    <textarea class="textarea" placeholder="Your commment" rows="3" th:field="*{content}"></textarea>
+    <textarea class="textarea" placeholder="Your comment" rows="3" th:field="*{content}"></textarea>
     <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
     </div>
     <button class="button is-primary" type="submit">Submit</button>
 </form>
-</div>
-</div>
+
 </section>
 </body>
 </html>

@@ -47,10 +47,10 @@
             </div>
         </div>
     </nav>
-    <hr>
+
 </header>
 
-<section>
+<section class="mt-6">
     <h1 class="subtitle is-3" th:text="${'Welcome, ' + sessionUser.username + '!'}"></h1>
     <!-- Image box only visible if sessionUser.profilePicturePath is not null -->
     <div  th:if="${sessionUser.profilePicturePath != null}">
