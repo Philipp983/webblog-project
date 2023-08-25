@@ -41,6 +41,7 @@ public class BlogEntryController {
 
         entry.setBlogUser(currentUser);
         entry.setDate(LocalDateTime.now());
+        entry.setContent(entry.getContent().replace("\n", "<br>"));
         blogEntryRepository.save(entry);
 
         return "redirect:/";
@@ -69,7 +70,9 @@ public class BlogEntryController {
         editedEntry.setId(existingEntry.getId());
         existingEntry.setTitle(editedEntry.getTitle());
         existingEntry.setContent(editedEntry.getContent());
+        existingEntry.setContent(existingEntry.getContent().replace("<br>", ""));
 
+        existingEntry.setContent(existingEntry.getContent().replace("\n", "<br>"));
 
         blogEntryRepository.save(existingEntry); // This will update the existing entry with the new values
         return "redirect:/"; // Redirect to the homepage or wherever you list the blog entries
