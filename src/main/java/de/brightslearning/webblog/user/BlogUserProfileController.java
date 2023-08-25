@@ -40,6 +40,10 @@ public class BlogUserProfileController {
     @GetMapping("/profile")
     public String getProfile(Model model) {
         // Retrieve user details and set to model attributes
+        BlogUser sessionUser = (BlogUser) model.getAttribute("sessionUser");
+        if (sessionUser == null) {
+            return "redirect:/";
+        }
         return "profile";
     }
 
@@ -127,7 +131,7 @@ public class BlogUserProfileController {
         // Maybe add an error message if user wasn't found
         model.addAttribute("errorMsg", "User not found!");
 
-        return "redirect:/profile"; // or return to a specific page with an error message
+        return "redirect:/profile";
     }
 
     @PostMapping("/promoteUserByUsernameToAdmin")

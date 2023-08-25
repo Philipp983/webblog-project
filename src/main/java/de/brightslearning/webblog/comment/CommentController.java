@@ -31,7 +31,7 @@ public class CommentController {
 
         if (entry == null) {
             // Handle the case when the entry is not found, e.g., redirect to an error page
-            return "error";
+            return "redirect:/";
         }
 
         model.addAttribute("blogEntry", entry);
@@ -54,7 +54,7 @@ public class CommentController {
         }
         if (entry == null) {
             // Handle the case when the entry is not found
-            return "error";
+            return "redirect:/";
         }
         //issue seems to be this block right here. without the
         Comment anotherComment = new Comment();
@@ -75,7 +75,7 @@ public class CommentController {
         Comment commentToEdit = commentRepository.findById(commentId).orElse(null);
         if (commentToEdit == null) {
             // Handle the case when the entry is not found
-            return "error";
+            return "redirect:/";
         }
         model.addAttribute("commentToEdit", commentToEdit);
         redirectAttributes.addFlashAttribute("commentToEdit", commentToEdit);
@@ -91,7 +91,7 @@ public class CommentController {
 
         if(originalComment == null) {
             // Handle the case where the original comment doesn't exist
-            return "error";
+            return "redirect:/";
         }
 
 //        originalComment.setId((editedComment.getId()));
